@@ -1,4 +1,4 @@
-const lightTheme =  {
+export const lightTheme =  {
     // FONTS
     FONT_SIZE_LARGE: 16,
     FONT_SIZE_MEDIUM: 14,
@@ -16,7 +16,7 @@ const lightTheme =  {
     
 }
 
-const darkTheme = {
+export const darkTheme = {
     // FONTS
     FONT_SIZE_LARGE: 16,
     FONT_SIZE_MEDIUM: 14,
