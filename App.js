@@ -1,12 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import Tile from './src/components/Tile';
+import AccountList from './src/components/accounts/AccountList';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Tile></Tile>
-      <StatusBar style="auto" />
+      <StatusBar style={"lightContent"}></StatusBar>
+      <AccountList></AccountList>
     </View>
   );
 }

@@ -1,5 +1,6 @@
 import {Text, View, StyleSheet} from "react-native";
-import theme from './src/styles/theme.js'
+
+import theme from '../../styles/theme.js';
 
 const Toolbar = (props) => {
     return (
@@ -12,7 +13,7 @@ const Toolbar = (props) => {
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor: theme.darkTheme.BACKGROUND_COLOR_PRIMARY,
+        backgroundColor: theme.BACKGROUND_COLOR_PRIMARY,
     }
 })
 
