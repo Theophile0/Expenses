@@ -24,7 +24,7 @@ const AccountList = (props) => {
     )
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     container:{
         flexDirection: 'column',
         alignItems: 'center',

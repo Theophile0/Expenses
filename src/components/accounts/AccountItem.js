@@ -1,10 +1,11 @@
 import {Text, View, StyleSheet, Dimensions, Image} from "react-native";
 import theme from '../../styles/theme.js';
+import {PositiveAmount} from '../shared/Functions.js'
 
 const itemWidth = Dimensions.get('window').width
 
 const AccountItem = (props) => {
-    const {title, type, accountNumber, accountBalance, image} = props;
+    const {title, type, accountBalance, image} = props;
 
 
     return (
@@ -18,18 +19,14 @@ const AccountItem = (props) => {
                 <Text style={[styles.text, styles.smallText]}>{type}</Text>
             </View>
             <View style={styles.balanceContainer}>
-                <Text style={[PositiveBalance(accountBalance)? styles.balancePositive: styles.balanceNegative, styles.balance]}>€ {PositiveBalance(accountBalance)? accountBalance:  accountBalance}</Text>
+                <Text style={[PositiveAmount(accountBalance)? styles.balancePositive: styles.balanceNegative, styles.balance]}>€ {accountBalance}</Text>
             </View>
         </View>
     )
         
 }
 
-const PositiveBalance = (accountBalance) =>{
-    return accountBalance >= 0? true: false
-}
-
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     container:{
         flex: 1,
         flexDirection: 'row',
@@ -44,14 +41,14 @@ const styles = StyleSheet.create({
         fontSize: theme.FONT_SIZE_LARGE,
     },
     imageContainer:{
-        flex:1
+        flex:0.75
     },
     image:{
         width: 50,
         height: 50,
-        },
+    },
     textContainer:{
-        flex:1,
+        flex:1.25,
         flexWrap: 'nowrap'
     },
     smallText:{
@@ -64,7 +61,7 @@ const styles = StyleSheet.create({
         fontWeight: '500'
     },
     balanceContainer:{
-        flex: 2,
+        flex: 1,
         alignItems: 'flex-end',
         justifyContent: 'center'
     },

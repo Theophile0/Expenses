@@ -14,7 +14,7 @@ export const transactions =  [
       "Amount": 60,
       "Date": "2024-02-18",
       "Description": "Electricity bill",
-      "AccountId": 2,
+      "AccountId": 1,
       "CategoryId": 2,
       "SubCategoryId": 4,
       "Beneficiary": "Electricity Company"
@@ -24,7 +24,7 @@ export const transactions =  [
       "Amount": 500,
       "Date": "2024-03-22",
       "Description": "Monthly deposit",
-      "AccountId": 3,
+      "AccountId": 1,
       "CategoryId": 1,
       "SubCategoryId": 2,
       "Beneficiary": "Investment Fund"
@@ -34,7 +34,7 @@ export const transactions =  [
       "Amount": 200,
       "Date": "2024-04-10",
       "Description": "Grocery shopping",
-      "AccountId": 2,
+      "AccountId": 1,
       "CategoryId": 3,
       "SubCategoryId": 6,
       "Beneficiary": "Supermarket XYZ"
