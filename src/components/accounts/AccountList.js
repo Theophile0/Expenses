@@ -1,4 +1,4 @@
-import {Text, View, StyleSheet, FlatList} from "react-native";
+import {Text, View, StyleSheet, FlatList, ScrollView} from "react-native";
 import AccountItem from "./AccountItem.js";
 import {accounts} from "../../../data/accounts.js";
 import theme from '../../styles/theme.js';
@@ -8,24 +8,32 @@ const AccountList = (props) => {
     const renderItem = ({item}) => <AccountItem 
         title={item.AccountTitle} 
         type={item.AccountType} 
-        accountNumber={item.accountNumber} 
+        accountNumber={item.AccountNumber} 
         accountBalance={item.AccountBalance} 
-        image={item.image}/>;
+        image={item.AccountImage}/>;
         
     return (
-        <FlatList
-        data={accounts}
-        renderItem={renderItem}
-        keyExtractor={item => item.AccountId.toString()}/>
+        <View style={styles.container}>
+            <Text style={styles.title}>{"Accounts"}</Text>
+                    <FlatList
+            data={accounts}
+            renderItem={renderItem}
+            keyExtractor={item => item.AccountId.toString()}/>
+        </View>
+        
     )
 }
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor: theme.BACKGROUND_COLOR_PRIMARY,
-        
-
-    }
+        flexDirection: 'column',
+        alignItems: 'center',
+        marginTop: theme.SCREEN_TOP_MARGIN,
+        marginHorizontal: theme.SCREEN_HORIZONTAL_MARGIN,
+    },
+    title:{
+        fontSize: theme.FONT_SIZE_EXTRA_LARGE
+    },
 })
 
 export default AccountList;
