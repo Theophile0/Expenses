@@ -1,4 +1,4 @@
-import {Text, View, StyleSheet, Dimensions, Image} from "react-native";
+import {Text, View, StyleSheet, Dimensions, Image,TouchableOpacity} from "react-native";
 import theme from '../../styles/theme.js';
 import {PositiveAmount} from '../shared/Functions.js'
 import {styles} from '../accounts/AccountItem.js'
@@ -7,10 +7,10 @@ import {styles} from '../accounts/AccountItem.js'
 const itemWidth = Dimensions.get('window').width
 
 const TransactionItem = (props) => {
-    const {date, category, subcategory, amount, image} = props;
+    const {date, category, subcategory, amount, image,transactionId, navigation} = props;
     
     return(
-        <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('TransactionDetails', {transactionId: transactionId})}>
         <View style={styles.imageContainer}>
             <Image source={{uri:image}} resizeMode={'contain'} style={[styles.image]} />
             {console.log(image)}
@@ -23,7 +23,7 @@ const TransactionItem = (props) => {
         <View style={styles.balanceContainer}>
             <Text style={[PositiveAmount(amount)? styles.balancePositive: styles.balanceNegative, styles.balance]}>€ {PositiveAmount(amount)? amount:  amount}</Text>
         </View>
-    </View>
+    </TouchableOpacity>
     )
 }
 
