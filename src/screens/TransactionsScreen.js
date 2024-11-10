@@ -1,9 +1,11 @@
 import TransactionList from '../components/transactions/TransactionList';
 import {View} from 'react-native';
-const TransactionsScreen = () =>{
+const TransactionsScreen = (props) =>{
+    const { navigation, route } = props;
+    console.log(route);
     return(
         <View>
-            <TransactionList></TransactionList>
+            <TransactionList navigation={navigation} route={route}></TransactionList>
         </View>
     )
 }

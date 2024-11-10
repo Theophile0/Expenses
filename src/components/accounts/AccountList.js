@@ -5,13 +5,16 @@ import theme from '../../styles/theme.js';
 
 
 const AccountList = (props) => {
+    const {navigation} = props;
     const renderItem = ({item}) => <AccountItem 
         title={item.AccountTitle} 
         type={item.AccountType} 
         accountNumber={item.AccountNumber} 
         accountBalance={item.AccountBalance} 
-        image={item.AccountImage}/>;
-        
+        image={item.AccountImage}
+        accountId={item.AccountId}
+        navigation={navigation}
+        />;
     return (
         <View style={styles.container}>
                     <FlatList

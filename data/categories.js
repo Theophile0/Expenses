@@ -22,6 +22,22 @@ export const categories = [
       "Description": "Groceries and dining out",
       "Color": "#FFA500",
       "AccountId": 2
+    },
+    {
+      "CategoryId": 4,
+      "Image": "https://images.vexels.com/content/145578/preview/cinema-admission-ticket-f63223.png",
+      "Name": "Cinema",
+      "Description": "Cinema",
+      "Color": "#FFA500",
+      "AccountId": 2
+    },
+    {
+      "CategoryId": 5,
+      "Image": "https://images.vexels.com/content/145578/preview/cinema-admission-ticket-f63223.png",
+      "Name": "Cinema",
+      "Description": "Cinema",
+      "Color": "#FFA500",
+      "AccountId": 2
     }
   ]
   

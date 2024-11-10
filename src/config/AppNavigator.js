@@ -12,7 +12,7 @@ const AppNavigator = () => {
     return(
     <NavigationContainer>
         <Tab.Navigator>
-          <Tab.Screen name='Accounts' component={AccountsStackNavigator} options={{ headerShown: false }}/>
+          <Tab.Screen name='Home' component={AccountsStackNavigator} options={{ headerShown: false }}/>
         </Tab.Navigator>
       </NavigationContainer>
     )
