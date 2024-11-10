@@ -1,14 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import AccountList from './src/components/accounts/AccountList';
-import TransactionList from './src/components/transactions/TransactionList';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { enableScreens } from 'react-native-screens';
+import AppNavigator from './src/config/AppNavigator.js';
+
+enableScreens();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <StatusBar style={"lightContent"}></StatusBar>
-      <TransactionList></TransactionList>
-    </View>
+      <AppNavigator />
   );
 }
 

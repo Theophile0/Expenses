@@ -14,7 +14,6 @@ const AccountList = (props) => {
         
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{"Accounts"}</Text>
                     <FlatList
             data={accounts}
             renderItem={renderItem}
@@ -28,7 +27,6 @@ export const styles = StyleSheet.create({
     container:{
         flexDirection: 'column',
         alignItems: 'center',
-        marginTop: theme.SCREEN_TOP_MARGIN,
         marginHorizontal: theme.SCREEN_HORIZONTAL_MARGIN,
     },
     title:{
