@@ -10,9 +10,9 @@ const Tab = createBottomTabNavigator();
 
 const AppNavigator = () => {
     return(
-        <NavigationContainer>
+    <NavigationContainer>
         <Tab.Navigator>
-          <Tab.Screen name='Accounts' component={AccountsStackNavigator}/>
+          <Tab.Screen name='Accounts' component={AccountsStackNavigator} options={{ headerShown: false }}/>
         </Tab.Navigator>
       </NavigationContainer>
     )
