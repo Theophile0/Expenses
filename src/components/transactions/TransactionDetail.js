@@ -52,13 +52,7 @@ const TransactionDetail = (props) => {
                 <Text style={styles.value}>{transaction.SubCategoryId}</Text>
             </View>
             
-            {/* Edit Button */}
-            <TouchableOpacity 
-                style={styles.editButton} 
-                onPress={() => navigation.navigate('EditTransaction', { transactionId })}
-            >
-                <Text style={styles.editButtonText}>Edit Transaction</Text>
-            </TouchableOpacity>
+            
         </View>
     );
 };

@@ -6,6 +6,7 @@ const TransactionEditor = (props) => {
     const {navigation, route} = props;
     const {transactionId} = route.params;
     const transaction = GetTransaction(transactionId);
+    
     return (
         <View>
             <Text>This is the editor</Text>
