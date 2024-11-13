@@ -22,7 +22,7 @@ const AppNavigator = () => {
     )
 }
 
-function AccountsStackNavigator() {
+const AccountsStackNavigator =()=> {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Accounts" component={AccountsScreen} />
