@@ -4,15 +4,19 @@ import {PositiveAmount} from '../shared/Functions.js'
 
 const itemWidth = Dimensions.get('window').width
 
+const window = Dimensions.get("window");
+const screen = Dimensions.get("screen");
+
+console.log(`Window dimensions: ${window.width}x${window.height}`);
+console.log(`Screen dimensions: ${screen.width}x${screen.height}`);
+
 const AccountItem = (props) => {
     const {title, type, accountBalance, image,accountId, navigation} = props;
-   console.log(accountId);
 
     return (
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Transactions',{accountId: accountId} )}>
             <View style={styles.imageContainer}>
                 <Image source={{uri:image}} resizeMode={'contain'} style={[styles.image]} />
-                {console.log(image)}
             </View>
             <View style={styles.textContainer}>
                 <Text style={[styles.text, styles.titleText]}>{title}</Text>

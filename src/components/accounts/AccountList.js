@@ -20,7 +20,8 @@ const AccountList = (props) => {
                     <FlatList
             data={accounts}
             renderItem={renderItem}
-            keyExtractor={item => item.AccountId.toString()}/>
+            keyExtractor={item => item.AccountId.toString()}
+            contentContainerStyle={{ paddingBottom: 20, flexGrow: 1 }}/>
         </View>
         
     )
@@ -28,12 +29,10 @@ const AccountList = (props) => {
 
 export const styles = StyleSheet.create({
     container:{
+        flex:1,
         flexDirection: 'column',
         alignItems: 'center',
         marginHorizontal: theme.SCREEN_HORIZONTAL_MARGIN,
-    },
-    title:{
-        fontSize: theme.FONT_SIZE_EXTRA_LARGE
     },
 })
 

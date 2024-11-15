@@ -9,6 +9,7 @@ import {GetTransactions } from "../../services/transactionService.js";
 const TransactionList = (props) => {
     const {navigation, route} = props;
     const {accountId} = route.params;
+    console.log("Dit is het accountId" + accountId)
 
     const renderItem = ({item}) => <TransactionItem 
         date={item.Date} 

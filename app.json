@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "Expenses",
+    "newArchEnabled": true,
+        "name": "Expenses",
     "slug": "Expenses",
     "version": "1.0.0",
     "orientation": "portrait",
