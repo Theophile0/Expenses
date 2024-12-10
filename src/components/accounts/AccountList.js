@@ -14,7 +14,6 @@ const AccountList = (props) => {
               fetch('http://localhost:8080/api/accounts')
               .then(res => res.json())
               .then(data => {
-                console.log(data);
                 setAccounts(data)
               })
               .catch()      
