@@ -7,3 +7,4 @@ export const GetTransactions = (accountId) =>{
 export const GetTransaction = (transactionId) =>{
     return transactions.find(transaction => transaction.TransactionId === transactionId);
 }
+
