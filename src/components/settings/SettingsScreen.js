@@ -1,9 +1,11 @@
-import react from 'react'
-import {View} from 'react-native'
+import React from 'react';
+import { View, Text } from 'react-native';
 
 const SettingsScreen = (props) =>{
     return(
-        <View>SettingsScreen</View>
+        <View>
+           <Text>SettingsScreen</Text> 
+        </View>
     )
 }
 

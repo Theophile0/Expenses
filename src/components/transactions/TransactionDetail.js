@@ -9,47 +9,45 @@ const TransactionDetail = (props) => {
     const {navigation, route} = props;
     const {transactionId} = route.params;
     const transaction = GetTransaction(transactionId);
-    console.log(transaction.Beneficiary)
-    const {Beneficiary, } = transaction
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Transaction Details</Text>
             
-            <View style={styles.detailBox}>
+           {/* <View style={styles.detailBox}>
                 <Text style={styles.label}>Beneficiary:</Text>
                 <Text style={styles.value}>{transaction.Beneficiary}</Text>
-            </View>
+            </View> */}
             
             <View style={styles.detailBox}>
                 <Text style={styles.label}>Amount:</Text>
-                <Text style={[styles.value, transaction.Amount >= 0 ? styles.positiveAmount : styles.negativeAmount]}>
+                <Text style={[styles.value, transaction.amount >= 0 ? styles.positiveAmount : styles.negativeAmount]}>
                     € {transaction.Amount.toFixed(2)}
                 </Text>
             </View>
             
             <View style={styles.detailBox}>
                 <Text style={styles.label}>Date:</Text>
-                <Text style={styles.value}>{transaction.Date}</Text>
+                <Text style={styles.value}>{transaction.date}</Text>
             </View>
             
             <View style={styles.detailBox}>
                 <Text style={styles.label}>Description:</Text>
-                <Text style={styles.value}>{transaction.Description}</Text>
+                <Text style={styles.value}>{transaction.description}</Text>
             </View>
 
             <View style={styles.detailBox}>
                 <Text style={styles.label}>Account ID:</Text>
-                <Text style={styles.value}>{transaction.AccountId}</Text>
+                <Text style={styles.value}>{transaction.accountId}</Text>
             </View>
 
             <View style={styles.detailBox}>
                 <Text style={styles.label}>Category ID:</Text>
-                <Text style={styles.value}>{transaction.CategoryId}</Text>
+                <Text style={styles.value}>{transaction.categoryId}</Text>
             </View>
 
             <View style={styles.detailBox}>
                 <Text style={styles.label}>Subcategory ID:</Text>
-                <Text style={styles.value}>{transaction.SubCategoryId}</Text>
+                <Text style={styles.value}>{transaction.subcategoryId}</Text>
             </View>
             
             

@@ -11,7 +11,7 @@ const AccountList = (props) => {
 
     useEffect(() => {
         
-              fetch('http://localhost:8080/api/accounts')
+              fetch('http://10.10.10.177:8080/api/accounts')
               .then(res => res.json())
               .then(data => {
                 setAccounts(data)

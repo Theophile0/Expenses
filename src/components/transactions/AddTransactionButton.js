@@ -8,7 +8,7 @@ const itemWidth = Dimensions.get('window').width
 const AddTransactionButton = (props) =>{
     const {navigation, route, accountId} = props;
     return(
-        <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('TransactionEditor', {accountId: accountId})}>
+        <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('AddTransaction', {accountId: accountId})}>
             <Text style={styles.iconText}>+</Text>
         </TouchableOpacity>
     )

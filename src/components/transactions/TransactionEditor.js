@@ -1,15 +1,69 @@
-import react from 'react';
-import {Text, View, StyleSheet, Dimensions, Image,TouchableOpacity} from "react-native";
+import react, { useEffect } from 'react';
+import {Text, View, StyleSheet, Dimensions, DatePicker, Image,TouchableOpacity} from "react-native";
 import { GetTransaction } from '../../services/transactionService'; 
+import { useState } from 'react';
+import { TextInput } from 'react-native-web';
+
+
 
 const TransactionEditor = (props) => {
     const {navigation, route} = props;
     const {transactionId} = route.params;
-    const transaction = GetTransaction(transactionId);
+    const [transaction, setTransaction] = useState();
+    const [amount, setAmount] = useState('');
+    const [date, setDate] = useState(new Date());
+    const [subCategory, setSubCategory] = useState('');
+    const [category, setCategory] = useState('');
+    const [description, setDescription] = useState('');
+
+    useEffect(() => {
+        fetch(`http://localhost:8080/api/transactions/${transactionId}`)
+        .then(res => res.json())
+        .then(data => {
+            setTransaction(data)
+            setAmount(transaction.amount);
+            setDescription(transaction.description)
+        })
+        .catch()
+    });
+
+    useEffect(()=>{
+        fetch(`http://localhost:8080/api/subcategory/${transactionId.subCategoryId}`)
+        .then(res =>res.json())
+        .then(data => {
+            setSubCategory(data)
+        }).catch()
+    })
+
+    useEffect(()=>{
+        fetch(`http://localhost:8080/api/category/${subCategory.categoryId}`)
+        .then(res =>res.json())
+        .then(data => {
+            setCategory(data)
+        })
+    })
+
+
+    
     
     return (
         <View>
-            <Text>This is the editor</Text>
+            {/* <TextInput
+            placeholder='Amount'
+            keyboardType='numeric'
+            value={amount}
+            onChangeText={setAmount}
+            />
+            <DatePicker
+        date={date}
+        mode="date"
+        placeholder="Select date"
+        format="YYYY-MM-DD"
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        onDateChange={setDate}
+        /> */}
+        <Text>This is the editor screen</Text>
         </View>
     )
 }
