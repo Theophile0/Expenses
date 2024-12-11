@@ -12,9 +12,9 @@ import AdddTransactionScreen from '../screens/AddTransactionScreen.js'
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const AppNavigator = () => {
+const AppNavigator = (props) => {
     return(
-    <NavigationContainer>
+    <NavigationContainer theme={props.theme}>
         <Tab.Navigator>
           <Tab.Screen name='Home' component={AccountsStackNavigator} options={{ headerShown: false }}/>
           <Tab.Screen name='Settings' component={SettingsScreen} options={{headerShown:true}}/>

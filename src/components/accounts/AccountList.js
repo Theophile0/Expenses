@@ -1,13 +1,13 @@
-import {Text, View, StyleSheet, FlatList, ScrollView} from "react-native";
+import { View, StyleSheet, FlatList,} from "react-native";
 import AccountItem from "./AccountItem.js";
-import theme from '../../styles/theme.js';
 import { useEffect, useState } from "react";
-
+import { useTheme } from "react-native-paper";
 
 const AccountList = (props) => {
     const {navigation} = props;
     const [accounts, setAccounts] = useState([]);
-   
+    const theme = useTheme()
+    const styles = getStyles(theme);
 
     useEffect(() => {
         
@@ -29,6 +29,8 @@ const AccountList = (props) => {
         navigation={navigation}
         />;
 
+        
+
     return (
         <View style={styles.container}>
                     <FlatList
@@ -39,8 +41,7 @@ const AccountList = (props) => {
         </View>   
     );
 }
-
-export const styles = StyleSheet.create({
+const getStyles = (theme) => StyleSheet.create({
     container:{
         flex:1,
         flexDirection: 'column',

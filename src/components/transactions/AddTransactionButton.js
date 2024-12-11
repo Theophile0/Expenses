@@ -1,12 +1,15 @@
 import react from 'react'
 import {View, TouchableOpacity, StyleSheet, Dimensions, Text} from 'react-native'
-import theme from '../../styles/theme.js';
+import { useTheme } from 'react-native-paper'
 
 const itemWidth = Dimensions.get('window').width
 
-
 const AddTransactionButton = (props) =>{
     const {navigation, route, accountId} = props;
+    const theme = useTheme();
+  const styles = getStyles(theme);
+    
+    
     return(
         <TouchableOpacity style={styles.icon} onPress={() => navigation.navigate('AddTransaction', {accountId: accountId})}>
             <Text style={styles.iconText}>+</Text>
@@ -14,8 +17,7 @@ const AddTransactionButton = (props) =>{
     )
 }
 
-
-const styles = StyleSheet.create({
+const getStyles =(theme) => StyleSheet.create({
     icon:{
         flex: 1,
         alignItems: 'center',
@@ -36,5 +38,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     }
 })
+
 
 export default AddTransactionButton

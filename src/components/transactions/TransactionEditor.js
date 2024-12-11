@@ -3,10 +3,14 @@ import {Text, View, StyleSheet, Dimensions, DatePicker, Image,TouchableOpacity} 
 import { GetTransaction } from '../../services/transactionService'; 
 import { useState } from 'react';
 import { TextInput } from 'react-native-web';
+import { useTheme } from "react-native-paper";
+
 
 
 
 const TransactionEditor = (props) => {
+    const theme = useTheme();
+  const styles = getStyles(theme);
     const {navigation, route} = props;
     const {transactionId} = route.params;
     const [transaction, setTransaction] = useState();
@@ -69,7 +73,7 @@ const TransactionEditor = (props) => {
 }
  
 
-const styles = StyleSheet.create({
+const getStyles =(theme) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F8F8F8',

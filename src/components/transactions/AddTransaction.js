@@ -1,8 +1,12 @@
 import react from "react";
 import { View, TextInput, Button, Text, DatePicker } from 'react-native';
 import { useState,useEffect  } from "react";
+import { useTheme } from "react-native-paper";
+
 
 const AddTransaction = () =>{
+  const theme = useTheme();
+  const styles = getStyles(theme);
     const [amount, setAmount] = useState('');
     const [date, setDate] = useState(new Date());
     const [category, setCategory] = useState('');
@@ -50,6 +54,15 @@ const AddTransaction = () =>{
       </View>
     );
   };
+
+  const getStyles =(theme) => StyleSheet.create({
+    container:{
+        flex:1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        marginHorizontal: theme.SCREEN_HORIZONTAL_MARGIN,
+    },
+})
 
 
 export default AddTransaction;

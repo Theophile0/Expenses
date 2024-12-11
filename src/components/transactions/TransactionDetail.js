@@ -1,13 +1,14 @@
 import react from 'react';
 import {Text, View, StyleSheet, Dimensions, Image,TouchableOpacity} from "react-native";
 import { GetTransaction } from '../../services/transactionService'; 
-import theme from '../../styles/theme.js';
-
+import { useTheme } from 'react-native-paper';
 
 
 const TransactionDetail = (props) => {
     const {navigation, route} = props;
     const {transactionId} = route.params;
+    const theme = useTheme();
+  const styles = getStyles(theme);
     const transaction = GetTransaction(transactionId);
     return (
         <View style={styles.container}>
@@ -58,7 +59,7 @@ const TransactionDetail = (props) => {
 const itemWidth = Dimensions.get('window').width
 
 
-const styles = StyleSheet.create({
+const getStyles =(theme) => StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F8F8F8',

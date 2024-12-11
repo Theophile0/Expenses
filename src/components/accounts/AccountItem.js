@@ -1,17 +1,17 @@
 import {Text, View, StyleSheet, Dimensions, Image, TouchableOpacity} from "react-native";
-import theme from '../../styles/theme.js';
 import {PositiveAmount} from '../shared/Functions.js'
+import { useTheme } from "react-native-paper";
 
 const itemWidth = Dimensions.get('window').width
 
 const window = Dimensions.get("window");
 const screen = Dimensions.get("screen");
 
-console.log(`Window dimensions: ${window.width}x${window.height}`);
-console.log(`Screen dimensions: ${screen.width}x${screen.height}`);
-
 const AccountItem = (props) => {
+    const theme = useTheme();
+    const styles = getStyles(theme);
     const {title, type, accountBalance, image,accountId, navigation} = props;
+    
 
     return (
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Transactions',{accountId: accountId} )}>
@@ -27,10 +27,11 @@ const AccountItem = (props) => {
             </View>
         </TouchableOpacity>
     )
+
+    
         
 }
-
-const styles = StyleSheet.create({
+const getStyles = (theme) => StyleSheet.create({
     container:{
         flex: 1,
         flexDirection: 'row',
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
         width: itemWidth -50,
         borderRadius: 10,
         padding: 15,
-        backgroundColor: theme.BACKGROUND_COLOR_PRIMARY,
+        backgroundColor: theme.colors.onPrimary,
         fontSize: theme.FONT_SIZE_LARGE,
     },
     imageContainer:{
@@ -79,5 +80,6 @@ const styles = StyleSheet.create({
         color: theme.NEGATIVE_NUMBER_COLOR,
     },
 })
+
 
 export default AccountItem;

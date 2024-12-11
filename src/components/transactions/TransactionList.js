@@ -1,8 +1,9 @@
 import {Text, View, StyleSheet, FlatList, ScrollView} from "react-native";
 import TransactionItem from "./TransactionItem.js";
-import {styles} from '../accounts/AccountList.js';
 import AddTransactionButton from './AddTransactionButton.js';
 import { useEffect, useState } from "react";
+import { useTheme } from "react-native-paper";
+
 
 const TransactionList = (props) => {
     const {navigation, route} = props;
@@ -10,6 +11,8 @@ const TransactionList = (props) => {
     const [transactions, setTransactions] = useState([]);
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubCategories] = useState([]);
+    const theme = useTheme();
+  const styles = getStyles(theme);
 
     useEffect(() => {
         fetch(`http://10.10.10.177:8080/api/transactions/accounts/${accountId}`)
@@ -79,6 +82,54 @@ const TransactionList = (props) => {
     </View>
     )
 }
+const getStyles =(theme) => StyleSheet.create({
+    container:{
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
 
+        margin: 10,
+        marginTop: 10,
+        width: itemWidth -50,
+        borderRadius: 10,
+        padding: 15,
+        backgroundColor: theme.BACKGROUND_COLOR_PRIMARY,
+        fontSize: theme.FONT_SIZE_LARGE,
+    },
+    imageContainer:{
+        flex:0.75
+    },
+    image:{
+        width: 50,
+        height: 50,
+    },
+    textContainer:{
+        flex:1.25,
+        flexWrap: 'nowrap'
+    },
+    smallText:{
+        color: theme.FONT_COLOR_PRIMARY,
+        fontSize: theme.FONT_SIZE_SMALL,
+        whiteSpace: 'nowrap',
+    },
+    titleText:{
+        fontSize: theme.FONT_SIZE_MEDIUM,
+        fontWeight: '500'
+    },
+    balanceContainer:{
+        flex: 1,
+        alignItems: 'flex-end',
+        justifyContent: 'center'
+    },
+    balance:{
+        fontSize: theme.FONT_SIZE_LARGE,
+    },
+    balancePositive:{
+        color: theme.POSITIVE_NUMBER_COLOR,
+    },
+    balanceNegative:{
+        color: theme.NEGATIVE_NUMBER_COLOR,
+    },
+})
 
 export default TransactionList;

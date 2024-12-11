@@ -1,5 +1,5 @@
 import {Text, View, StyleSheet, Dimensions, Image,TouchableOpacity} from "react-native";
-import theme from '../../styles/theme.js';
+import { useTheme } from "react-native-paper";
 import {PositiveAmount} from '../shared/Functions.js'
 
 
@@ -7,9 +7,12 @@ const itemWidth = Dimensions.get('window').width
 
 const TransactionItem = (props) => {
     const {date, category, subcategory, amount, image,transactionId, navigation} = props;
+    const theme = useTheme();
+  const styles = getStyles(theme);
+    
     return(
         <View>
-            <Text>Does this show?</Text>
+          
 <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('TransactionDetails', {transactionId: transactionId})}>
         {
             console.log("Does this work")
@@ -32,7 +35,9 @@ const TransactionItem = (props) => {
     )
 }
 
-const styles = StyleSheet.create({
+
+
+const getStyles =(theme) => StyleSheet.create({
     container:{
         flex: 1,
         flexDirection: 'row',
@@ -81,8 +86,6 @@ const styles = StyleSheet.create({
         color: theme.NEGATIVE_NUMBER_COLOR,
     },
 })
-
-
 
 
 export default TransactionItem;
