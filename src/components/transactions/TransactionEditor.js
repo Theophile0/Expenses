@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { TextInput } from 'react-native-web';
 import { useTheme } from "react-native-paper";
 
+const theme = useTheme();
 
 
 
@@ -52,7 +53,7 @@ const TransactionEditor = (props) => {
     
     return (
         <View>
-            {/* <TextInput
+             <TextInput
             placeholder='Amount'
             keyboardType='numeric'
             value={amount}
@@ -66,7 +67,7 @@ const TransactionEditor = (props) => {
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
         onDateChange={setDate}
-        /> */}
+        /> 
         <Text>This is the editor screen</Text>
         </View>
     )
