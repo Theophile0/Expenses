@@ -3,6 +3,8 @@
 # dependencies
 node_modules/
 
+expensesimagestorage-915f76f31264.json
+
 # Expo
 .expo/
 dist/
