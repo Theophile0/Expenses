@@ -3,11 +3,15 @@ import TransactionItem from "./TransactionItem.js";
 import AddTransactionButton from './AddTransactionButton.js';
 import { useEffect, useState } from "react";
 import { useTheme } from "react-native-paper";
+import { Dimensions } from "react-native";
 
+const itemWidth = Dimensions.get('window').width
 
 const TransactionList = (props) => {
     const {navigation, route} = props;
     const {accountId} = route.params;
+    const apiUrl = process.env.EXPO_BACKEND_API_URL
+
     const [transactions, setTransactions] = useState([]);
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubCategories] = useState([]);
@@ -15,7 +19,7 @@ const TransactionList = (props) => {
   const styles = getStyles(theme);
 
     useEffect(() => {
-        fetch(`http://10.10.10.177:8080/api/transactions/accounts/${accountId}`)
+        fetch(`${apiUrl}/transactions/accounts/${accountId}`)
         .then(res => res.json())
         .then(data =>{
             setTransactions(data)
@@ -24,7 +28,7 @@ const TransactionList = (props) => {
     }, []);
 
     useEffect(() => {
-        fetch(`http://10.10.10.177:8080/api/categories`)
+        fetch(`${apiUrl}/categories`)
         .then(res => res.json())
         .then(data =>{
             setCategories(data)
@@ -33,7 +37,7 @@ const TransactionList = (props) => {
     }, []);
 
     useEffect(() => {
-        fetch(`http://10.10.10.177:8080/api/subcategories`)
+        fetch(`${apiUrl}/subcategories`)
         .then(res => res.json())
         .then(data =>{
             setSubCategories(data)

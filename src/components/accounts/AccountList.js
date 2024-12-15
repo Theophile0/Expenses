@@ -3,15 +3,18 @@ import AccountItem from "./AccountItem.js";
 import { useEffect, useState } from "react";
 import { useTheme } from "react-native-paper";
 
+
 const AccountList = (props) => {
     const {navigation} = props;
+    const apiUrl = process.env.EXPO_BACKEND_API_URL
+    console.log(apiUrl)
     const [accounts, setAccounts] = useState([]);
     const theme = useTheme()
     const styles = getStyles(theme);
 
     useEffect(() => {
         
-              fetch('http://10.10.10.177:8080/api/accounts')
+              fetch(`${apiUrl}/accounts`)
               .then(res => res.json())
               .then(data => {
                 setAccounts(data)

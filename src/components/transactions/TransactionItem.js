@@ -14,11 +14,7 @@ const TransactionItem = (props) => {
         <View>
           
 <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('TransactionDetails', {transactionId: transactionId})}>
-        {
-            console.log("Does this work")
-        }
-        
-        <View style={styles.imageContainer}>
+              <View style={styles.imageContainer}>
             <Image source={{uri:image}} resizeMode={'contain'} style={[styles.image]} />
         </View>
         <View style={styles.textContainer}>

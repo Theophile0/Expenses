@@ -1,11 +1,10 @@
 import react, { useEffect } from 'react';
 import {Text, View, StyleSheet, Dimensions, DatePicker, Image,TouchableOpacity} from "react-native";
-import { GetTransaction } from '../../services/transactionService'; 
 import { useState } from 'react';
 import { TextInput } from 'react-native-web';
 import { useTheme } from "react-native-paper";
 
-const theme = useTheme();
+
 
 
 
@@ -14,6 +13,7 @@ const TransactionEditor = (props) => {
   const styles = getStyles(theme);
     const {navigation, route} = props;
     const {transactionId} = route.params;
+    const apiUrl = process.env.EXPO_BACKEND_API_URL
     const [transaction, setTransaction] = useState();
     const [amount, setAmount] = useState('');
     const [date, setDate] = useState(new Date());
@@ -22,7 +22,7 @@ const TransactionEditor = (props) => {
     const [description, setDescription] = useState('');
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/transactions/${transactionId}`)
+        fetch(`${apiUrl}/transactions/${transactionId}`)
         .then(res => res.json())
         .then(data => {
             setTransaction(data)
@@ -33,7 +33,7 @@ const TransactionEditor = (props) => {
     });
 
     useEffect(()=>{
-        fetch(`http://localhost:8080/api/subcategory/${transactionId.subCategoryId}`)
+        fetch(`${apiUrl}/subcategory/${transactionId.subCategoryId}`)
         .then(res =>res.json())
         .then(data => {
             setSubCategory(data)
@@ -41,7 +41,7 @@ const TransactionEditor = (props) => {
     })
 
     useEffect(()=>{
-        fetch(`http://localhost:8080/api/category/${subCategory.categoryId}`)
+        fetch(`${apiUrl}/category/${subCategory.categoryId}`)
         .then(res =>res.json())
         .then(data => {
             setCategory(data)

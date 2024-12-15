@@ -1,6 +1,5 @@
-import react from 'react';
+import react, { useEffect, useState } from 'react';
 import {Text, View, StyleSheet, Dimensions, Image,TouchableOpacity} from "react-native";
-import { GetTransaction } from '../../services/transactionService'; 
 import { useTheme } from 'react-native-paper';
 
 
@@ -8,8 +7,18 @@ const TransactionDetail = (props) => {
     const {navigation, route} = props;
     const {transactionId} = route.params;
     const theme = useTheme();
-  const styles = getStyles(theme);
-    const transaction = GetTransaction(transactionId);
+    const styles = getStyles(theme);
+    const [transaction, setTransaction] = useState()
+
+    useEffect(() => {
+        fetch(`${apiUrl}/transactions/${transactionId}`)
+        .then(res => res.json())
+        .then(data =>{
+            setTransaction(data)
+        })
+        .catch()
+    }, []);
+
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Transaction Details</Text>
@@ -22,7 +31,7 @@ const TransactionDetail = (props) => {
             <View style={styles.detailBox}>
                 <Text style={styles.label}>Amount:</Text>
                 <Text style={[styles.value, transaction.amount >= 0 ? styles.positiveAmount : styles.negativeAmount]}>
-                    € {transaction.Amount.toFixed(2)}
+                    € {transaction.amount.toFixed(2)}
                 </Text>
             </View>
             

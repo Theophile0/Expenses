@@ -8,6 +8,8 @@ import TransactionDetailScreen from '../screens/TransactionDetailScreen.js';
 import TransactionEditorScreen from '../screens/TransactionEditorScreen.js';
 import SettingsScreen from '../components/settings/SettingsScreen.js';
 import AdddTransactionScreen from '../screens/AddTransactionScreen.js'
+import { MaterialCommunityIcons } from 'react-native-vector-icons';
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -16,8 +18,25 @@ const AppNavigator = (props) => {
     return(
     <NavigationContainer theme={props.theme}>
         <Tab.Navigator>
-          <Tab.Screen name='Home' component={AccountsStackNavigator} options={{ headerShown: false }}/>
-          <Tab.Screen name='Settings' component={SettingsScreen} options={{headerShown:true}}/>
+        <Tab.Screen
+          name="Home"
+          component={AccountsStackNavigator}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="home-outline" color={color} size={size} />
+            ),
+          }}
+        />
+          <Tab.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="cog-outline" color={color} size={size} />
+            ),
+          }}
+        />
         </Tab.Navigator>
       </NavigationContainer>
     )
