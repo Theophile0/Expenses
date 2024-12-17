@@ -23,6 +23,15 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins":[
+      [
+"expo-image-picker",
+      {
+        "photosPermission": "The Expenses app needs to acces your photos to upload images."
+      }
+      ]
+      
+    ]
   }
 }

@@ -18,7 +18,7 @@ const SettingsScreen = (props) =>{
                     <Text style={styles.text}>
                         {isThemeDark? 'Dark Mode': 'Light Mode'}
                     </Text>
-                    <Icon name={isThemeDark ? 'weather-night':'white-balance-sunny'} size={30}/>
+                    <Icon name={isThemeDark ? 'weather-night':'white-balance-sunny'} size={30} color={theme.colors.onSurface}/>
                     <Switch
                         value={isThemeDark}
                         onValueChange={toggleTheme}

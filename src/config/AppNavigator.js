@@ -8,6 +8,7 @@ import TransactionDetailScreen from '../screens/TransactionDetailScreen.js';
 import TransactionEditorScreen from '../screens/TransactionEditorScreen.js';
 import SettingsScreen from '../components/settings/SettingsScreen.js';
 import AdddTransactionScreen from '../screens/AddTransactionScreen.js'
+import AddAccountScreen from '../screens/AddAccountScreen.js'
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
 
@@ -46,6 +47,7 @@ const AccountsStackNavigator =()=> {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Accounts" component={AccountsScreen} />
+            <Stack.Screen name="AddAccount" component={AddAccountScreen} options={{title:'Add Account'}}/>
             <Stack.Screen name="Transactions" component={TransactionsScreen} />
             <Stack.Screen name="TransactionDetails" component={TransactionDetailScreen} options={{title: 'Details'}} />
             <Stack.Screen name="AddTransaction" component={AdddTransactionScreen} options={{title: 'New Transaction'}}/>

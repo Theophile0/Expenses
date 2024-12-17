@@ -65,7 +65,7 @@ const TransactionList = (props) => {
         category={category ? category.name: "Uncategorized"}  
         subcategory={subCategory ? subCategory.name: "Uncategorized"}  
         amount={item.amount} 
-        image={category?.icon ? category.icon: "https://thenounproject.com/browse/icons/term/broken-image/"}
+        image={category?.icon ? category.icon: "../../../assets/broken-image.png"}
         transactionId={item.id} 
         navigation={navigation} 
     />

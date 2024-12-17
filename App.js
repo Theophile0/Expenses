@@ -3,15 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { PaperProvider } from 'react-native-paper';
 import AppNavigator from './src/config/AppNavigator';
 import { StatusBar } from 'expo-status-bar';
-import {
-  DarkTheme as NavigationDarkTheme,
-  DefaultTheme as NavigationDefaultTheme,
-} from '@react-navigation/native';
-import {
-  MD3DarkTheme,
-  MD3LightTheme,
-  adaptNavigationTheme,
-} from 'react-native-paper';
+import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme,} from '@react-navigation/native';
+import { MD3DarkTheme, MD3LightTheme, adaptNavigationTheme,} from 'react-native-paper';
 
 
 export const PreferencesContext = React.createContext({
@@ -63,6 +56,18 @@ const CombinedDefaultTheme = {
     FONT_WEIGHT_LIGHT: 200,
     FONT_WEIGHT_MEDIUM: 600,
     FONT_WEIGHT_HEAVY: 800,
+    
+
+    // MARGINS
+    SCREEN_TOP_MARGIN: 50,
+    SCREEN_BOTTOM_MARGIN: 20,
+    SCREEN_HORIZONTAL_MARGIN: 80,
+  fonts:{
+    ...MD3LightTheme.fonts,
+  },
+  colors: {
+    ...MD3LightTheme.colors,
+    ...LightTheme.colors,
     // COLORS
     FONT_COLOR_PRIMARY: '#000000',
     FONT_COLOR_SECONDARY: '#ffffff',
@@ -71,23 +76,41 @@ const CombinedDefaultTheme = {
     BACKGROUND_COLOR_PRIMARY: '#D9D9D9',
     POSITIVE_NUMBER_COLOR: "#17B439",
     NEGATIVE_NUMBER_COLOR: "#E1200F",
-
-    // MARGINS
-    SCREEN_TOP_MARGIN: 50,
-    SCREEN_BOTTOM_MARGIN: 20,
-    SCREEN_HORIZONTAL_MARGIN: 80,
-    
-  colors: {
-    ...MD3LightTheme.colors,
-    ...LightTheme.colors,
   },
 };
 const CombinedDarkTheme = {
   ...MD3DarkTheme,
   ...DarkTheme,
+  // FONTS
+  FONT_SIZE_EXTRA_LARGE: 33,
+  FONT_SIZE_LARGE: 25,
+  FONT_SIZE_MEDIUM: 20,
+  FONT_SIZE_SMALL: 16,
+
+  FONT_WEIGHT_LIGHT: 200,
+  FONT_WEIGHT_MEDIUM: 600,
+  FONT_WEIGHT_HEAVY: 800,
+  
+  fonts:{
+    ...MD3DarkTheme.fonts,
+
+  },
+
+  // MARGINS
+  SCREEN_TOP_MARGIN: 50,
+  SCREEN_BOTTOM_MARGIN: 20,
+  SCREEN_HORIZONTAL_MARGIN: 80,
   colors: {
     ...MD3DarkTheme.colors,
     ...DarkTheme.colors,
+    // COLORS
+    FONT_COLOR_PRIMARY: '#000000',
+    FONT_COLOR_SECONDARY: '#ffffff',
+    FONT_COLOR_TERTIARY: '#1AF149',
+    FONT_COLOR_QUATERNARY: '#333333',
+    BACKGROUND_COLOR_PRIMARY: '#D9D9D9',
+    POSITIVE_NUMBER_COLOR: "#17B439",
+    NEGATIVE_NUMBER_COLOR: "#E1200F",
   },
 };
 
