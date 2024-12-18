@@ -10,13 +10,17 @@ const AddTransactionButton = (props) => {
     const styles = getStyles(theme)
 
     return (
+       
         <FAB
             icon="plus"
             size='large'
             style={styles.fab}
             color={theme.colors.primary}
-            onPress={() => navigation.navigate('AddTransaction', { accountId: accountId })}
+            onPress={() => navigation.navigate('AddTransaction')}
         />
+        
+       
+        
     );
 };
 

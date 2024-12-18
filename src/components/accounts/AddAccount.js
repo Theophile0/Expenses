@@ -28,7 +28,9 @@ const AddAccount = (props) => {
       setImage(result.assets[0].uri);
     }
   };
-
+  const handleRemoveImage = () => {
+    setIcon(null)
+  }
   useEffect(() => {
     (async () => {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -126,10 +128,14 @@ const AddAccount = (props) => {
             right={<TextInput.Affix text="€" />}
         /> */}
 
-        <Button style={styles.button} mode='outlined' onPress={handleImagePicker}>
-          Choose Image
+        <Button
+          style={styles.button}
+          mode="outlined"
+          onPress={icon ? handleRemoveImage : handleImagePicker}
+        >
+          {icon ? "Delete Image" : "Choose Image"}
         </Button>
-        {image ? <Image source={{ uri: image }} style={styles.imagePreview} /> : <Text>Kies een image</Text>}
+        {image ? <Image source={{ uri: image }} style={styles.imagePreview} /> : <Text>Select an image</Text>}
 
 
 

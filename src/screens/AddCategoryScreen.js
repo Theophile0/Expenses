@@ -1,13 +1,12 @@
-import AccountList from '../components/accounts/AccountList';
+import AddCategory from '../components/categories/AddCategory';
 import {View, StyleSheet} from 'react-native';
 
 
-const AccountsScreen = (props) =>{
+const AddCategoryScreen = (props) =>{
     const { navigation } = props;
     return(
         <View style={styles.container}>
-            
-            <AccountList navigation={navigation}></AccountList>
+            <AddCategory navigation={navigation}></AddCategory>
         </View>
     )
 }
@@ -18,4 +17,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AccountsScreen;
+export default AddCategoryScreen;

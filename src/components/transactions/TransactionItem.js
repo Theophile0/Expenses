@@ -33,7 +33,7 @@ const TransactionItem = (props) => {
 
 
 
-const getStyles =(theme) => StyleSheet.create({
+const getStyles = (theme) => StyleSheet.create({
     container:{
         flex: 1,
         flexDirection: 'row',
@@ -44,7 +44,7 @@ const getStyles =(theme) => StyleSheet.create({
         width: itemWidth -50,
         borderRadius: 10,
         padding: 15,
-        backgroundColor: theme.BACKGROUND_COLOR_PRIMARY,
+        backgroundColor: theme.colors.primaryContainer,
         fontSize: theme.FONT_SIZE_LARGE,
     },
     imageContainer:{
@@ -59,11 +59,12 @@ const getStyles =(theme) => StyleSheet.create({
         flexWrap: 'nowrap'
     },
     smallText:{
-        color: theme.FONT_COLOR_PRIMARY,
+        color: theme.colors.onSurface,
         fontSize: theme.FONT_SIZE_SMALL,
         whiteSpace: 'nowrap',
     },
     titleText:{
+        color: theme.colors.onSurface,
         fontSize: theme.FONT_SIZE_MEDIUM,
         fontWeight: '500'
     },
@@ -76,12 +77,11 @@ const getStyles =(theme) => StyleSheet.create({
         fontSize: theme.FONT_SIZE_LARGE,
     },
     balancePositive:{
-        color: theme.POSITIVE_NUMBER_COLOR,
+        color: theme.colors.POSITIVE_NUMBER_COLOR,
     },
     balanceNegative:{
-        color: theme.NEGATIVE_NUMBER_COLOR,
+        color: theme.colors.NEGATIVE_NUMBER_COLOR,
     },
 })
-
 
 export default TransactionItem;
