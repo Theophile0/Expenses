@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { useTheme, FAB } from "react-native-paper";
-import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
 
 
@@ -23,12 +22,10 @@ const AddAccountButton = (props) => {
 
 const getStyles = (theme) =>StyleSheet.create({
     fab:{
-        
             position: 'absolute',
             margin: 16,
             right: 0,
             bottom: 0,
-         
     }
 });
 

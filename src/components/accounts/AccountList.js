@@ -1,9 +1,12 @@
-import { View, StyleSheet, FlatList, } from "react-native";
+import React from 'react'
+import { View, StyleSheet, FlatList,Dimensions } from "react-native";
 import AccountItem from "./AccountItem.js";
 import { useEffect, useState } from "react";
-import { useTheme } from "react-native-paper";
+import { useTheme,ActivityIndicator } from "react-native-paper";
 import AddAccountButton from "./AddAccountButton.js";
-import WaitingComponent from "../shared/waitingComponent.js";
+import { useFocusEffect } from '@react-navigation/native'; 
+
+const itemWidth = Dimensions.get('window').width
 
 
 const AccountList = (props) => {
@@ -14,18 +17,24 @@ const AccountList = (props) => {
     const [animating, setAnimating] = useState(true);
     const theme = useTheme()
     const styles = getStyles(theme);
-
-    useEffect(() => {
-        setAnimating(false);
-        fetch(`${apiUrl}/accounts`)
-            .then(res => res.json())
-            .then(data => {
-                setAccounts(data)
-                
-            })
-            .catch()
-    }, []);
-
+    
+    useFocusEffect(
+        React.useCallback(() => {
+          const fetchData = async () => { 
+            try {
+              const response = await fetch(`${apiUrl}/accounts`);
+              const data = await response.json();
+              setAccounts(data);
+              setAnimating(false); 
+            } catch (error) {
+              console.error('Error fetching accounts:', error); 
+            }
+          };
+      
+          fetchData(); 
+        }, [])
+      );
+    
 
     const renderItem = ({ item }) => <AccountItem
         title={item.name}
@@ -39,8 +48,7 @@ const AccountList = (props) => {
 
     if (animating) {
         return (
-            <WaitingComponent animating={animating} />
-        )
+            <ActivityIndicator animating={animating} color={theme.colors.onBackground}/>        )
     }
     else {
         return (

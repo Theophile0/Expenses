@@ -1,6 +1,6 @@
 import react from "react";
-import { View, TextInput, Button, Text, DatePicker } from 'react-native';
-import { useState,useEffect  } from "react";
+import { View,StyleSheet, TextInput, Button, Text, DatePicker } from 'react-native';
+import { useState, useEffect  } from "react";
 import { useTheme } from "react-native-paper";
 
 
@@ -14,46 +14,58 @@ const AddTransaction = () =>{
     const [paymentMethod, setPaymentMethod] = useState('');
   
     const handleAddTransaction = () => {
-      // Send data to backend API or perform other actions
       console.log('Transaction added:', { amount, date, category, description, paymentMethod });
-    };
+    
   
     return (
       <View>
-        <TextInput
-          placeholder="Amount"
-          keyboardType="numeric"
-          value={amount}
-          onChangeText={setAmount}
+        <TextInput 
+            style={styles.textInput}
+            mode="outlined"
+            label="Title"
+            value={title}
+            onChangeText={text => setTitle(text)}
         />
-        <DatePicker
-          date={date}
-          mode="date"
-          placeholder="Select date"
-          format="YYYY-MM-DD"
-          confirmBtnText="Confirm"
-          cancelBtnText="Cancel"
-          onDateChange={(date) => setDate(date)}
+        <TextInput 
+            style={styles.textInput}
+            mode="outlined"
+            label="Title"
+            value={title}
+            onChangeText={text => setTitle(text)}
         />
-        <TextInput
-          placeholder="Category"
-          value={category}
-          onChangeText={setCategory}
+        <TextInput 
+            style={styles.textInput}
+            mode="outlined"
+            label="Title"
+            value={title}
+            onChangeText={text => setTitle(text)}
         />
-        <TextInput
-          placeholder="Description"
-          value={description}
-          onChangeText={setDescription}
-        />
-        <TextInput
-          placeholder="Payment Method"
-          value={paymentMethod}
-          onChangeText={setPaymentMethod}
-        />
-        <Button title="Add Transaction" onPress={handleAddTransaction} />
+        <Button onPress={() => setOpen(true)} mode="outlined">
+        Pick a Date
+      </Button>
+      <DatePickerModal
+        locale="en" // optional, default: en-GB
+        mode="single"
+        visible={open}
+        onDismiss={onDismissSingle}
+        onConfirm={onConfirmSingle}
+        date={date}
+        // Optional props
+        saveLabel="Save" // optional
+        label="Select date" // optional
+        animationType="slide" // optional, default is 'fade'
+        startYear={1990} // optional, default: 1900
+        endYear={2050} // optional, default: current year + 5
+        // validRange={{ startDate: new Date('2024-01-01'), endDate: new Date() }} // optional
+        // onChange={(params) => {console.log(params)}} // optional
+      />
+       {date && <Text>Selected Date: {format(date, 'dd/MM/yyyy')}</Text>}
+    
+        
       </View>
     );
   };
+}
 
   const getStyles =(theme) => StyleSheet.create({
     container:{
@@ -62,7 +74,7 @@ const AddTransaction = () =>{
         alignItems: 'center',
         marginHorizontal: theme.SCREEN_HORIZONTAL_MARGIN,
     },
-})
+  })
 
 
 export default AddTransaction;
