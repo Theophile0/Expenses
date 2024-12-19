@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image, Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import { useTheme, TextInput, Button } from "react-native-paper";
 import * as ImagePicker from 'expo-image-picker';
-import { ColorPicker } from 'react-native-color-picker';
 import Slider from '@react-native-community/slider';
 import{ ImagesAssets } from '../../../assets/ImageAssets';
 

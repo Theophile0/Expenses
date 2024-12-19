@@ -12,13 +12,12 @@ const AccountItem = (props) => {
     const theme = useTheme();
     const styles = getStyles(theme);
     const {title, type, accountBalance, image, accountId, navigation} = props;
-    const brokenImage = "assets\broken-image.png"
    
 
     return (
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Transactions',{accountId: accountId} )}>
             <View style={styles.imageContainer}>
-                <Image source={image !== "" ? {url:image}: {uri:brokenImage}} resizeMode={'contain'} style={[styles.image]} />
+                <Image source={image !== "" ? {uri:'../../../assets/broken-image.png'}: {}} resizeMode={'contain'} style={[styles.image]} />
             </View>
             <View style={styles.textContainer}>
                 <Text style={[styles.text, styles.titleText]}>{title}</Text>

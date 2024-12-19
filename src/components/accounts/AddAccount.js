@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, Dimensions,ScrollView } from 'react-native'
+import { View, Text, StyleSheet, Image, Dimensions,ScrollView, Platform } from 'react-native'
 import { useState, useEffect, } from "react";
 import { useTheme, TextInput, Button } from "react-native-paper";
 import * as ImagePicker from 'expo-image-picker';
@@ -10,7 +10,6 @@ const AddAccount = (props) => {
   const { navigation } = props;
   const [title, setTitle] = useState('');
   const [type, setType] = useState('');
-  const [accountBalance, setAccountBalance] = useState(0.0);
   const [image, setImage] = useState(null);
   const theme = useTheme();
   const styles = getStyles(theme);
@@ -29,7 +28,7 @@ const AddAccount = (props) => {
     }
   };
   const handleRemoveImage = () => {
-    setIcon(null)
+    setImage(null)
   }
   useEffect(() => {
     (async () => {
@@ -51,41 +50,45 @@ const AddAccount = (props) => {
         return;
       }
       const formData = new FormData();
-      formData.append('type', type);
-      formData.append('name', title);
-      if (image) {
-        const response = await fetch(image);
-        const blob = await response.blob();
-        const fileType = blob.type
-
-        if (!fileType.startsWith('image/')) {
-          alert('Please select a valid image file.'); 
-          return; 
-        }
-        
-
-        formData.append('image', blob, blob.name )
-      }
-      console.log("image in submit " + image)
-      fetch(`${apiUrl}/accounts`, {
-        method: 'POST',
-        body: formData,
-        
-      }).then(response => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        formData = new FormData()
-        navigation.navigate('Accounts')
-        
-        return response;
+      const json = JSON.stringify({
+        type: type, 
+        name: title,
       })
-        .then(data => {
-          console.log('Success:', data);
-        })
-        .catch((error) => {
-          console.error('Error:', error);
+      formData.append('json', json);
+
+
+      if (image) {
+        const uri = image;
+        const fileType = uri.split('.').pop();
+        const imageName = `title_${Date.now()}.${fileType}`
+
+        formData.append('imageName', imageName)
+        formData.append('image', {
+          uri: uri,
+          type: `image/${fileType}`,
+          name: imageName,
         });
+          
+        fetch(`${apiUrl}/accounts`, {
+          method: 'POST',
+          body: formData,
+        })
+        .then(response => {
+          if(!response.ok){
+            throw new Error("response.body.")
+          }
+        })
+          .then(data => {
+            navigation.goBack();
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      } else{
+        
+      }
+      
+      
     } catch (error) {
       console.error('Eror:', error);
     }
@@ -131,9 +134,9 @@ const AddAccount = (props) => {
         <Button
           style={styles.button}
           mode="outlined"
-          onPress={icon ? handleRemoveImage : handleImagePicker}
+          onPress={image ? handleRemoveImage : handleImagePicker}
         >
-          {icon ? "Delete Image" : "Choose Image"}
+          {image ? "Delete Image" : "Choose Image"}
         </Button>
         {image ? <Image source={{ uri: image }} style={styles.imagePreview} /> : <Text>Select an image</Text>}
 

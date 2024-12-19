@@ -15,11 +15,13 @@ const AccountList = (props) => {
   console.log(apiUrl)
   const [accounts, setAccounts] = useState([]);
   const [animating, setAnimating] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
   const theme = useTheme()
   const styles = getStyles(theme);
 
   useFocusEffect(
     React.useCallback(() => {
+      setFetchError(false)
       fetch(`${apiUrl}/accounts`)
         .then(response => response.json())
         .then(data => {
@@ -27,7 +29,7 @@ const AccountList = (props) => {
           setAnimating(false);
         })
         .catch(error => {
-          console.error('Error fetching accounts:', error);
+          setFetchError(true)
         });
     }, [])
   );
