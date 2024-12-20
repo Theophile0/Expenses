@@ -3,8 +3,15 @@ import React, { useState, useEffect } from 'react';
 import { PaperProvider } from 'react-native-paper';
 import AppNavigator from './src/config/AppNavigator';
 import { StatusBar } from 'expo-status-bar';
-import { DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme,} from '@react-navigation/native';
-import { MD3DarkTheme, MD3LightTheme, adaptNavigationTheme,} from 'react-native-paper';
+import {
+  DarkTheme as NavigationDarkTheme,
+  DefaultTheme as NavigationDefaultTheme,
+} from '@react-navigation/native';
+import {
+  MD3DarkTheme,
+  MD3LightTheme,
+  adaptNavigationTheme,
+} from 'react-native-paper';
 
 
 export const PreferencesContext = React.createContext({

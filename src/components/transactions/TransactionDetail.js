@@ -1,123 +1,99 @@
-import react, { useEffect, useState } from 'react';
-import {Text, View, StyleSheet, Dimensions, Image,TouchableOpacity} from "react-native";
-import { useTheme } from 'react-native-paper';
-
+import React, { useEffect, useState } from 'react';
+import { View, Text } from 'react-native';
+import { List, Card, Divider, useTheme } from 'react-native-paper';
 
 const TransactionDetail = (props) => {
-    const {navigation, route} = props;
-    const {transactionId} = route.params;
-    const theme = useTheme();
-    const styles = getStyles(theme);
-    const [transaction, setTransaction] = useState()
+  const { navigation, route } = props;
+  const { transactionId } = route.params;
+  const theme = useTheme();
+  const apiUrl = process.env.EXPO_API_URL;
+  const [transaction, setTransaction] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [subCategory, setSubCategory] = useState(null);
 
-    useEffect(() => {
-        fetch(`${apiUrl}/transactions/${transactionId}`)
-        .then(res => res.json())
-        .then(data =>{
-            setTransaction(data)
-        })
-        .catch()
-    }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/transactions/${transactionId}`);
+        const data = await response.json();
+        setTransaction(data);
 
-    return (
-        <View style={styles.container}>
-            <Text style={styles.header}>Transaction Details</Text>
-            
-           {/* <View style={styles.detailBox}>
-                <Text style={styles.label}>Beneficiary:</Text>
-                <Text style={styles.value}>{transaction.Beneficiary}</Text>
-            </View> */}
-            
-            <View style={styles.detailBox}>
-                <Text style={styles.label}>Amount:</Text>
-                <Text style={[styles.value, transaction.amount >= 0 ? styles.positiveAmount : styles.negativeAmount]}>
+        if (data.subcategoryId) { 
+          fetchSubCategory(data.subcategoryId);
+        }
+      } catch (error) {
+        console.error('Error fetching transaction:', error);
+      }
+    };
+
+    fetchData();
+  }, [transactionId, apiUrl]);
+
+  useEffect(() => {
+    if (transaction && transaction.subcategoryId) {
+      fetchSubCategory(transaction.subcategoryId);
+    }
+  }, [transaction]);
+
+  const fetchSubCategory = async (subcategoryId) => {
+    try {
+      const response = await fetch(`${apiUrl}/subcategories/${subcategoryId}`);
+      const data = await response.json();
+      setSubCategory(data);
+    } catch (error) {
+      console.error('Error fetching subcategory:', error);
+    }
+  };
+
+  return (
+    <View style={{ padding: 16 }}>
+      {transaction ? (
+        <Card>
+          <Card.Title title="Transaction Details" />
+          <Card.Content>
+            <List.Section>
+              <List.Item 
+                title="Amount" 
+                right={() => (
+                  <Text 
+                    style={{ 
+                      color: transaction.amount >= 0 ? 'green' : 'red' 
+                    }}
+                  >
                     € {transaction.amount.toFixed(2)}
-                </Text>
-            </View>
-            
-            <View style={styles.detailBox}>
-                <Text style={styles.label}>Date:</Text>
-                <Text style={styles.value}>{transaction.date}</Text>
-            </View>
-            
-            <View style={styles.detailBox}>
-                <Text style={styles.label}>Description:</Text>
-                <Text style={styles.value}>{transaction.description}</Text>
-            </View>
-
-            <View style={styles.detailBox}>
-                <Text style={styles.label}>Account ID:</Text>
-                <Text style={styles.value}>{transaction.accountId}</Text>
-            </View>
-
-            <View style={styles.detailBox}>
-                <Text style={styles.label}>Category ID:</Text>
-                <Text style={styles.value}>{transaction.categoryId}</Text>
-            </View>
-
-            <View style={styles.detailBox}>
-                <Text style={styles.label}>Subcategory ID:</Text>
-                <Text style={styles.value}>{transaction.subcategoryId}</Text>
-            </View>
-            
-            
+                  </Text>
+                )} 
+              />
+              <Divider />
+              <List.Item title="Date" right={() => <Text>{transaction.date}</Text>} />
+              <Divider />
+              <List.Item title="Description" right={() => <Text>{transaction.description}</Text>} />
+              <Divider />
+              <List.Item title="Account ID" right={() => <Text>{transaction.accountId}</Text>} />
+              <Divider />
+              <List.Item 
+                title="Category" 
+                right={() => 
+                  category ? <Text>{category.name}</Text> : <Text>N/A</Text> 
+                } 
+              />
+              <Divider />
+              <List.Item 
+                title="Subcategory" 
+                right={() => 
+                  subCategory ? <Text>{subCategory.name}</Text> : <Text>N/A</Text> 
+                } 
+              />
+            </List.Section>
+          </Card.Content>
+        </Card>
+      ) : (
+        <View>
+          <Text>Error loading transaction</Text>
         </View>
-    );
+      )}
+    </View>
+  );
 };
-
-const itemWidth = Dimensions.get('window').width
-
-
-const getStyles =(theme) => StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#F8F8F8',
-        marginHorizontal: itemWidth/5,
-        padding: 20,
-    },
-    header: {
-        fontSize: 26,
-        fontWeight: 'bold',
-        color: '#333',
-        marginBottom: 20,
-        textAlign: 'center',
-    },
-    detailBox: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingVertical: 10,
-        borderBottomColor: '#DDD',
-        borderBottomWidth: 1,
-        marginBottom: 10,
-    },
-    label: {
-        fontSize: 16,
-        color: '#666',
-        fontWeight: '600',
-    },
-    value: {
-        fontSize: 16,
-        color: '#000000',
-    },
-    positiveAmount: {
-        color: '#4CAF50', // green for positive values
-    },
-    negativeAmount: {
-        color: '#E53935', // red for negative values
-    },
-    editButton: {
-        backgroundColor: '#4CAF50',
-        paddingVertical: 12,
-        paddingHorizontal: 25,
-        borderRadius: 8,
-        marginTop: 30,
-        alignSelf: 'center',
-    },
-    editButtonText: {
-        color: '#FFF',
-        fontSize: 16,
-        fontWeight: '600',
-    },
-});
 
 export default TransactionDetail;

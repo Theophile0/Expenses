@@ -21,7 +21,6 @@ const AddCategory = (props) => {
   const [greenValue, setGreenValue] = useState(0);
   const [blueValue, setBlueValue] = useState(0);
   const [nameError, setNameError] = useState(false);
-  const [colorError, setColorError] = useState(false);
   const apiUrl = process.env.EXPO_API_URL;
     
   const handleImagePicker = async () => {

@@ -15,7 +15,6 @@ const AddTransaction = (props) => {
   const [date, setDate] = useState(new Date());
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('');
   const [amountEror, setAmountError] = useState(false);
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
