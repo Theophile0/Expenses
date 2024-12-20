@@ -1,17 +1,12 @@
 import React from "react";
 import { Text, View, StyleSheet, FlatList, ScrollView } from "react-native";
 import TransactionItem from "./TransactionItem.js";
-import AddTransactionButton from './AddTransactionButton.js';
 import { useEffect, useState } from "react";
 import { useTheme } from "react-native-paper";
-import { Dimensions } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 import {ActivityIndicator} from "react-native-paper";
-
-
-
-
-const itemWidth = Dimensions.get('window').width
+import { RefreshControl } from "react-native";
+import AddEntityButton from "../shared/AddEntityButton.js";
 
 const TransactionList = (props) => {
     const { navigation, route } = props;
@@ -21,52 +16,69 @@ const TransactionList = (props) => {
     const [transactions, setTransactions] = useState([]);
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubCategories] = useState([]);
+
+      const [fetchError, setFetchError] = useState(false);
+      const [refreshing, setRefreshing] = useState(false);
     const theme = useTheme();
     const styles = getStyles(theme);
-    console.log("transactionsapiurl: " + `${apiUrl}/transactions/accounts/${accountId}`)
 
-    useFocusEffect(
-        React.useCallback(() => {
-            console.log(accountId)
-            fetch(`${apiUrl}/transactions/accounts/${accountId}`)
+
+    const fetchTransactions = () =>{
+        fetch(`${apiUrl}/transactions/accounts/${accountId}`)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
                     setTransactions(data)
                     setAnimating(false)
+                    setRefreshing(false)
+                    setFetchError(false);
                 })
                 .catch( error =>{
-                    console.error('Error fetching transactions:', error)
+                    setFetchError(true);
                     setAnimating(false);
-                }
-                    
+                    setRefreshing(false)
+                }  
                 )
-        }, [])
-    );
-    useFocusEffect(
-        React.useCallback(() => {
-            fetch(`${apiUrl}/categories`)
+    }
+
+    const fetchCategories = () => {
+        fetch(`${apiUrl}/categories`)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
-
                     setCategories(data)
                 })
                 .catch()
-        }, [])
-    );
-    useFocusEffect(
-        React.useCallback(() => {
-            fetch(`${apiUrl}/subcategories`)
+    }
+
+    const fetchSubCategories = () => {
+        fetch(`${apiUrl}/subcategories`)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
-
                     setSubCategories(data)
                 })
                 .catch()
+    }
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        setTransactions([]);
+        setAnimating(true);
+        setTimeout(() => {
+          fetchTransactions();
+          fetchCategories();
+          fetchSubCategories();
+          setRefreshing(false);
+        }, 300);
+      }, []);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            fetchTransactions();
+            fetchCategories();
+            fetchSubCategories();
         }, [])
     );
+
+    
 
     const getCategory = (categoryId) => {
         return categories.find(category => category.id === categoryId);
@@ -79,14 +91,13 @@ const TransactionList = (props) => {
     const renderItem = ({ item }) => {
         const subCategory = getSubCategory(item.subCategoryId);
         const category = subCategory ? getCategory(subCategory.categoryId) : null;
-        console.log(item)
         return (
             <TransactionItem
                 date={item.date}
                 category={category ? category.name : "Uncategorized"}
                 subcategory={subCategory ? subCategory.name : "Uncategorized"}
                 amount={item.amount}
-                image={category?.icon ? category.icon : "../../../assets/broken-image.png"}
+                image={category?.icon ? category.icon : ""}
                 transactionId={item.id}
                 navigation={navigation}
             />
@@ -96,18 +107,25 @@ const TransactionList = (props) => {
 
     if (animating) {
         return (
-            <ActivityIndicator animating={animating} color={theme.colors.onBackground} />)
+            <View style={styles.activityIndicator}>
+                <ActivityIndicator size={'large'} animating={animating} color={theme.colors.onBackground} />
+                <AddEntityButton navigation={navigation} route={route} accountId={accountId} action={() => navigation.navigate('AddTransaction')}/>
+
+            </View>
+        )
     } else {
         return (
            
                 <View style={styles.container}>
-                    {console.log("rendered")
-                    /* <FlatList
+                    <FlatList
                         data={transactions}
                         renderItem={renderItem}
                         keyExtractor={item => item.id.toString()}
-                        contentContainerStyle={{ paddingBottom: 20, flexGrow: 1 }} /> */}
-                    <AddTransactionButton navigation={navigation} route={route} accountId={accountId}/>
+                        contentContainerStyle={{ paddingBottom: 20, flexGrow: 1 }} 
+                                  refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
+                        
+                        /> 
+                <AddEntityButton action={() => navigation.navigate('AddTransaction')}/>
                 </View>
             
         )
@@ -121,6 +139,11 @@ const getStyles = (theme) => StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
     },
+    activityIndicator: {
+        flex: 1,
+        justifyContent: 'center', 
+        alignItems: 'center', 
+      },
 })
 
 

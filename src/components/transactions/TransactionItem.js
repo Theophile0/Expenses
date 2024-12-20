@@ -11,22 +11,26 @@ const TransactionItem = (props) => {
   const styles = getStyles(theme);
     
     return(
-        <View>
+        
           
 <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('TransactionDetails', {transactionId: transactionId})}>
-              <View style={styles.imageContainer}>
-            <Image source={{uri:image}} resizeMode={'contain'} style={[styles.image]} />
-        </View>
-        <View style={styles.textContainer}>
+<View style={styles.imageContainer}>
+  { image !== "" 
+    ? <Image source={{uri: image}} resizeMode={'contain'} style={[styles.image]} /> 
+    : <Image source={require('../../assets/broken-image.png')} resizeMode={'contain'} style={[styles.image]} /> 
+  }
+</View>       <View style={styles.textContainer}>
             <Text style={[styles.text, styles.smallText]}>{date}</Text>
             <Text style={[styles.text, styles.titleText]}>{category}</Text>
             <Text style={[styles.text, styles.smallText]}>{subcategory}</Text>
         </View>
         <View style={styles.balanceContainer}>
-            <Text style={[PositiveAmount(amount)? styles.balancePositive: styles.balanceNegative, styles.balance]}>€ {PositiveAmount(amount)? amount:  amount}</Text>
+            <Text style={[PositiveAmount(amount)? styles.balancePositive: styles.balanceNegative, styles.balance]}>
+                € {PositiveAmount(amount)? amount:  amount}
+            </Text>
         </View>
     </TouchableOpacity>
-        </View>
+        
     
     );
 }

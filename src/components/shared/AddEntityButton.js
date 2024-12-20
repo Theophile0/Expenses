@@ -4,8 +4,8 @@ import { useTheme, FAB } from "react-native-paper";
 
 
 
-const AddTransactionButton = (props) => {
-    const { navigation, route, accountId } = props;
+const AddEntityButton = (props) => {
+    const { action } = props;
     const theme = useTheme();
     const styles = getStyles(theme)
 
@@ -15,8 +15,9 @@ const AddTransactionButton = (props) => {
             icon="plus"
             size='large'
             style={styles.fab}
-            color={theme.colors.primary}
-            onPress={() => navigation.navigate('AddTransaction')}
+            color={theme.colors.onSurface}
+            onPress={action}
+            customSize={80}
         />
         
        
@@ -37,4 +38,4 @@ const getStyles = (theme) => StyleSheet.create({
 
 
 
-export default AddTransactionButton
+export default AddEntityButton
