@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Image, Dimensions, ScrollView, TouchableOpacity
 import { useTheme, TextInput, Button } from "react-native-paper";
 import * as ImagePicker from 'expo-image-picker';
 import Slider from '@react-native-community/slider';
-import{ ImagesAssets } from '../../assets/ImageAssets';
 
 
 const itemWidth = Dimensions.get('window').width;
@@ -12,28 +11,30 @@ const AddCategory = (props) => {
   const { navigation } = props;
   const theme = useTheme();
   const styles = getStyles(theme);
+  const apiUrl = process.env.EXPO_API_URL;
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [icon, setIcon] = useState(null);
+  const [image, setImage] = useState(null);
   const [color, setColor] = useState('#102945');
   const [redValue, setRedValue] = useState(0);
   const [greenValue, setGreenValue] = useState(0);
   const [blueValue, setBlueValue] = useState(0);
   const [nameError, setNameError] = useState(false);
-  const apiUrl = process.env.EXPO_API_URL;
+  const [fetchError, setFetchError] = useState(false);
+ 
     
   const handleImagePicker = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       quality: 1,
     });
     if (!result.canceled && result.assets.length > 0) {
-      setIcon(result.assets[0].uri);
+      setImage(result.assets[0].uri);
     }
   };
   
   const handleRemoveImage = () => {
-    setIcon(null)
+    setImage(null)
   }
 
   useEffect(() => {
@@ -50,23 +51,30 @@ const AddCategory = (props) => {
       setNameError(true);
       return;
     }
+    if(!description){
+      setDescription("")
+    }
 
     const formData = new FormData();
-    formData.append('name', name);
-    formData.append('description', description);
-    formData.append('color', color);
+    formData.append('json',JSON.stringify({
+      name: name,
+      description: description,
+      color: color
+    }))
 
-    if (icon) {
-      const response = await fetch(icon);
-      const blob = await response.blob();
-      const fileType = blob.type;
+ 
+      if (image) {
+        const uri = image;
+        const fileType = uri.split('.').pop();
+        const imageName = `title_${Date.now()}.${fileType}`
 
-      if (!fileType.startsWith('image/')) {
-        alert('Please select a valid image file.');
-        return;
-      }
+        formData.append('imageName', imageName)
+        formData.append('image', {
+          uri: uri,
+          type: `image/${fileType}`,
+          name: imageName,
+        });
 
-      formData.append('icon', blob, blob.name);
     }
 
     fetch(`${apiUrl}/categories`, {
@@ -74,14 +82,15 @@ const AddCategory = (props) => {
       body: formData,
     })
       .then(response => {
+        console.log(response)
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          setFetchError(true)
+          return
         }
-        navigation.navigate('Categories');
-        return response;
+        navigation.goBack()
       })
       .catch(error => {
-        console.error('Error:', error);
+        setFetchError(true)
       });
   };
 
@@ -165,15 +174,15 @@ const AddCategory = (props) => {
         
 <TouchableOpacity onPress={handleImagePicker}>
           <View style={styles.imagePreviewContainer}>
-            {icon ? (
-              <Image source={{ uri: icon }} style={styles.imagePreview} />
+            {image ? (
+              <Image source={{ uri: image }} style={styles.imagePreview} />
             ) : (
               <Text style={styles.imagePreviewPlaceholder}>Select an image</Text>
             )}
           </View>
         </TouchableOpacity>
 
-        {icon && (
+        {image && (
   <Button
     style={[styles.button, { backgroundColor: theme.colors.error }]} // Apply error style to the delete button
     labelStyle={{ color: theme.colors.onError }} // Apply onError color to text

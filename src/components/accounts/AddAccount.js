@@ -16,6 +16,7 @@ const AddAccount = (props) => {
   const apiUrl = process.env.EXPO_API_URL;
   const [titleError, setTitleEror] = useState(false);
   const [typeError, setTypeError] = useState(false);
+  const [fetchError, setFetchError] = useState(false);
 
 
   const handleImagePicker = async () => {
@@ -56,6 +57,10 @@ const AddAccount = (props) => {
       })
       formData.append('json', json);
 
+      if(image === null){
+        setImage( require('../../assets/broken-image.png'))
+      }
+     
 
       if (image) {
         const uri = image;
@@ -75,14 +80,15 @@ const AddAccount = (props) => {
         })
         .then(response => {
           if(!response.ok){
-            throw new Error("response.body.")
+            setFetchError(true)
+            return
           }
         })
           .then(data => {
             navigation.goBack();
           })
           .catch((error) => {
-            console.error('Error:', error);
+            setFetchError(true)
           });
       } else{
         
