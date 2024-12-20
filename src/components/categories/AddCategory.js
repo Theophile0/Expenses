@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, Dimensions, ScrollView, TouchableOpacity
 import { useTheme, TextInput, Button } from "react-native-paper";
 import * as ImagePicker from 'expo-image-picker';
 import Slider from '@react-native-community/slider';
-import{ ImagesAssets } from '../../../assets/ImageAssets';
+import{ ImagesAssets } from '../../assets/ImageAssets';
 
 
 const itemWidth = Dimensions.get('window').width;

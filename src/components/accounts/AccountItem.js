@@ -5,9 +5,6 @@ import { useTheme } from "react-native-paper";
 
 const itemWidth = Dimensions.get('window').width
 
-const window = Dimensions.get("window");
-const screen = Dimensions.get("screen");
-
 const AccountItem = (props) => {
     const theme = useTheme();
     const styles = getStyles(theme);
@@ -15,9 +12,14 @@ const AccountItem = (props) => {
    
 
     return (
+        <>        
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Transactions',{accountId: accountId} )}>
             <View style={styles.imageContainer}>
-                <Image source={image !== "" ? {uri:'../../../assets/broken-image.png'}: {}} resizeMode={'contain'} style={[styles.image]} />
+                { image !== "" ?             
+                <Image source={{uri: image}} resizeMode={'contain'} style={[styles.image]} />
+                :
+                <Image source={require('../../assets/broken-image.png')} resizeMode={'contain'} style={[styles.image]} />
+        }
             </View>
             <View style={styles.textContainer}>
                 <Text style={[styles.text, styles.titleText]}>{title}</Text>
@@ -27,6 +29,8 @@ const AccountItem = (props) => {
                 <Text style={[PositiveAmount(accountBalance)? styles.balancePositive: styles.balanceNegative, styles.balance]}>€ {accountBalance}</Text>
             </View>
         </TouchableOpacity>
+        </>
+        
     )
 
     
