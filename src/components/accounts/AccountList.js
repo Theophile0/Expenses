@@ -75,6 +75,23 @@ const AccountList = (props) => {
     setFilteredAccounts(filtered);
   };
 
+  const deleteAccount = (accountId)=>{
+    fetch(`${apiUrl}/accounts/${accountId}`, {
+      method: 'DELETE'
+    })
+    .then(response =>{
+      if(response.ok){
+        setAccounts(oldAccounts =>oldAccounts.filter(account => account.id !== accountId));
+        setFilteredAccounts(oldFilterdAccounts => oldFilterdAccounts.filter(account => account.id !== accountId));
+      } else{
+        alert('Account could not be deleted')
+      }
+    })
+    .catch(error =>{
+      alert('Account could not be deleted')
+    })
+  }
+
 
 
   const renderItem = ({ item }) => <AccountItem
@@ -84,6 +101,8 @@ const AccountList = (props) => {
     image={item.image}
     accountId={item.id}
     navigation={navigation}
+    onDelete={() => deleteAccount(item.id)}
+    onEdit={() => navigation.navigate('AccountEdit')}
   />;
 
 
@@ -161,7 +180,7 @@ const getStyles = (theme) => StyleSheet.create({
     alignItems: 'center',
     justifyContent:'space-between',
     alignContent:'center',
-    backgroundColor:'white',
+    
     paddingHorizontal:15,
     color:'black',
   },

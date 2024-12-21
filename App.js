@@ -83,6 +83,8 @@ const CombinedDefaultTheme = {
     BACKGROUND_COLOR_PRIMARY: '#D9D9D9',
     POSITIVE_NUMBER_COLOR: "#17B439",
     NEGATIVE_NUMBER_COLOR: "#E1200F",
+    pencil:"#FFFF00",
+
   },
 };
 const CombinedDarkTheme = {
@@ -119,6 +121,7 @@ const CombinedDarkTheme = {
     BACKGROUND_COLOR_PRIMARY: '#D9D9D9',
     POSITIVE_NUMBER_COLOR: "#17B439",
     NEGATIVE_NUMBER_COLOR: "#E1200F",
+    pencil:"#FFFF00",
   },
 };
 
