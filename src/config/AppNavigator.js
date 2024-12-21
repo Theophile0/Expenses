@@ -12,6 +12,7 @@ import AddAccountScreen from '../screens/AddAccountScreen.js'
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import AddCategoryScreen from '../screens/AddCategoryScreen.js';
 import AddSubCategoryScreen from '../screens/AddSubCategoryScreen.js';
+import AccountEditScreen from '../screens/EditAccountScreen.js';
 
 
 const Stack = createNativeStackNavigator();
@@ -56,6 +57,7 @@ const AccountsStackNavigator =()=> {
             <Stack.Screen name="TransactionEditor" component={TransactionEditorScreen} options={{title: 'Editor'}}/>
             <Stack.Screen name="AddCategory" component={AddCategoryScreen} options={{title: 'New Category'}}/>
             <Stack.Screen name="AddSubCategory" component={AddSubCategoryScreen} options={{title: 'New Subcategory'}}/>
+            <Stack.Screen name="AccountEdit" component={AccountEditScreen} options={{title: 'Edit account'}}/>
         </Stack.Navigator>
     );
 }

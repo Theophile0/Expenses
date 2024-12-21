@@ -128,14 +128,7 @@ const AddAccount = (props) => {
           }}
         />
 
-        {/* <TextInput
-            mode="outlined"
-            label="Balance"
-            keyboardType="numeric"
-            value={accountBalance.toString()}
-            onChangeText={setAccountBalance}
-            right={<TextInput.Affix text="€" />}
-        /> */}
+      
 
         <Button
           style={styles.button}

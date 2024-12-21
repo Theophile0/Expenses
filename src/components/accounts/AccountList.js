@@ -102,7 +102,7 @@ const AccountList = (props) => {
     accountId={item.id}
     navigation={navigation}
     onDelete={() => deleteAccount(item.id)}
-    onEdit={() => navigation.navigate('AccountEdit')}
+    onEdit={() => navigation.navigate('AccountEdit', {accountId: item.id})}
   />;
 
 
