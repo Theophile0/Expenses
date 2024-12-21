@@ -1,5 +1,5 @@
 import React from "react";
-import TransacionEdit from "../components/transacions/TransactionEdit";
+import TransacionEdit from "../components/transactions/TransactionEdit";
 import { View, StyleSheet } from "react-native";
 
 const TransactionEditScreen = (props) => {

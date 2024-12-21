@@ -186,7 +186,7 @@ const TransactionList = (props) => {
                 transactionId={item.id}
                 navigation={navigation}
                 onDelete={() => deleteTransaction(item.id)}
-                onEdit={() => navigation.navigate('TransacionEdit', {transaction: item.id})}   
+                onEdit={() => navigation.navigate('TransactionEdit', {transaction: item.id})}   
             />
         );
     };
@@ -258,7 +258,7 @@ const TransactionList = (props) => {
                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
 
                 />
-                <AddEntityButton disabled={disabled} action={() => navigation.navigate('AddTransaction')} />
+                <AddEntityButton disabled={disabled} action={() => navigation.navigate('AddTransaction', {accountId: accountId})} />
             </View>
 
         )

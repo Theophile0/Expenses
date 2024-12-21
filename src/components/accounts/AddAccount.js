@@ -90,13 +90,11 @@ const AddAccount = (props) => {
           .catch((error) => {
             setFetchError(true)
           });
-      } else{
-        
-      }
+      } 
       
-      
+  
     } catch (error) {
-      console.error('Eror:', error);
+      setFetchError(true)
     }
 
   };

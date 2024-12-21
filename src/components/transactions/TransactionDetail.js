@@ -2,29 +2,52 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Card, List, Divider, Text, ActivityIndicator, useTheme } from 'react-native-paper';
 
-const TransactionDetail = (props) => {
-    const {route, transaction, category, subCategory, accountId} = props;
+const TransactionDetail = ({ route }) => {
   const { transactionId } = route.params;
   const apiUrl = process.env.EXPO_API_URL;
   const theme = useTheme();
-  const [account, setAccount] = useState(null)
+  const [transaction, setTransaction] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [subCategory, setSubCategory] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(()=>{
-        fetch(`${apiUrl}/accounts/${accountId}`)
-        .then(res => res.json())
-        .then(data => {
-            setAccount(data)
-        })
-        .catch
-    })
-  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/transactions/${transactionId}`);
+        const data = await response.json();
+        setTransaction(data);
+
+        if (data.subcategoryId) {
+          fetchSubCategory(data.subcategoryId);
+        }
+      } catch (error) {
+        console.error('Error fetching transaction:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [transactionId, apiUrl]);
+
   const formatDate = (date) =>{
     const formattedDate = new Date(date); 
     const day = String(formattedDate.getDate()).padStart(2, '0'); 
     const month = String(formattedDate.getMonth() + 1).padStart(2, '0'); 
     const year = formattedDate.getFullYear(); 
-    return `${day}-${month}-${year}`; }
+    return `${day}-${month}-${year}`; 
+}
+
+  const fetchSubCategory = async (subcategoryId) => {
+    try {
+      const response = await fetch(`${apiUrl}/subcategories/${subcategoryId}`);
+      const data = await response.json();
+      setSubCategory(data);
+    } catch (error) {
+      console.error('Error fetching subcategory:', error);
+    }
+  };
 
   if (loading) {
     return (

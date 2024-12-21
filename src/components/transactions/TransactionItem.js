@@ -56,7 +56,7 @@ const formatDate = (date) =>{
           
 <TouchableOpacity 
 style={[styles.container, isLongPressed && styles.longPressed]} 
-onPress={isLongPressed ? handleShortPress :() => navigation.navigate('TransactionDetails', {transactionId: transactionId})}
+onPress={isLongPressed ? handleShortPress :() => navigation.navigate('TransactionDetails', {transactionId: transactionId, subCategory: subcategory, category: category})}
 onLongPress={handleLongPress}
 >
 <View style={styles.imageContainer}>
