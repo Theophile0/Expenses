@@ -5,7 +5,7 @@ import { useTheme, FAB } from "react-native-paper";
 
 
 const AddEntityButton = (props) => {
-    const { action } = props;
+    const { action, disabled } = props;
     const theme = useTheme();
     const styles = getStyles(theme)
 
@@ -18,6 +18,7 @@ const AddEntityButton = (props) => {
             color={theme.colors.onSurface}
             onPress={action}
             customSize={80}
+            disabled={disabled}
         />
         
        

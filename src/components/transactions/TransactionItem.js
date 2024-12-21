@@ -6,9 +6,20 @@ import {PositiveAmount} from '../shared/Functions.js'
 const itemWidth = Dimensions.get('window').width
 
 const TransactionItem = (props) => {
-    const {date, category, subcategory, amount, image,transactionId, navigation} = props;
-    const theme = useTheme();
-  const styles = getStyles(theme);
+const {date, category, subcategory, amount, image,transactionId, navigation} = props;
+const theme = useTheme();
+const styles = getStyles(theme);
+
+
+
+
+const formatDate = (date) =>{
+    const formattedDate = new Date(date); 
+    const day = String(formattedDate.getDate()).padStart(2, '0'); 
+    const month = String(formattedDate.getMonth() + 1).padStart(2, '0'); 
+    const year = formattedDate.getFullYear(); 
+    return `${day}-${month}-${year}`; 
+}
     
     return(
         
@@ -20,7 +31,7 @@ const TransactionItem = (props) => {
     : <Image source={require('../../assets/broken-image.png')} resizeMode={'contain'} style={[styles.image]} /> 
   }
 </View>       <View style={styles.textContainer}>
-            <Text style={[styles.text, styles.smallText]}>{date}</Text>
+            <Text style={[styles.text, styles.smallText]}>{formatDate(date)}</Text>
             <Text style={[styles.text, styles.titleText]}>{category}</Text>
             <Text style={[styles.text, styles.smallText]}>{subcategory}</Text>
         </View>

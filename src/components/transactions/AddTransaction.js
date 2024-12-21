@@ -92,7 +92,7 @@ const AddTransaction = (props) => {
           {categories.map(cat => (
             <Picker.Item key={cat.id} label={cat.name} value={cat.id} />
           ))}
-          <Picker.Item label={ "+ new Category"} value={"AddCategory"} ></Picker.Item>
+          <Picker.Item label={ "+ New category"} value={"AddCategory"} ></Picker.Item>
         </Picker>
 
         {/* Subcategory Picker (Visible only after selecting a category) */}
@@ -106,6 +106,7 @@ const AddTransaction = (props) => {
               {subcategories[category]?.map(sub => (
                 <Picker.Item key={sub.id} label={sub.name} value={sub.id} />
               ))}
+              <Picker.Item label={ "New subcategory"} value={"AddSubCategory"} ></Picker.Item>
             </Picker>
           </>
         )}

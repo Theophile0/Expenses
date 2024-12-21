@@ -16,6 +16,7 @@ const AccountList = (props) => {
   const [animating, setAnimating] = useState(true);
   const [fetchError, setFetchError] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
+  const [fabDisabled, setFabDisabled] = useState(true);
   const theme = useTheme()
   const styles = getStyles(theme);
 
@@ -30,6 +31,8 @@ const AccountList = (props) => {
     setRefreshing(true);
     setAccounts([]);
     setAnimating(true);
+    setFabDisabled(true)
+
     setTimeout(() => {
       fetchAccounts();
       setRefreshing(false);
@@ -44,6 +47,7 @@ const AccountList = (props) => {
           setAccounts(data);
           setAnimating(false);
           setRefreshing(false)
+          setFabDisabled(false)
         })
         .catch(error => {
           setFetchError(true)
@@ -66,7 +70,7 @@ const AccountList = (props) => {
     return (
 <View style={styles.activityIndicator}>
   <ActivityIndicator size={'large'} animating={animating} color={theme.colors.onBackground} />
-  <AddEntityButton action={() => navigation.navigate('AddAccount' )} />
+  <AddEntityButton disabled={fabDisabled} action={() => navigation.navigate('AddAccount' )} />
 
 </View>
 )  }
@@ -81,7 +85,7 @@ const AccountList = (props) => {
           contentContainerStyle={{ paddingBottom: 20, flexGrow: 1 }}
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
           />
-        <AddEntityButton action={() => navigation.navigate('AddAccount' )} />
+        <AddEntityButton disabled={fabDisabled} action={() => navigation.navigate('AddAccount' )} />
       </View>
     )
 
