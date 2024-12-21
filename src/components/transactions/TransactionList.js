@@ -2,7 +2,6 @@ import React from "react";
 import { Text, View, StyleSheet, FlatList, ScrollView } from "react-native";
 import TransactionItem from "./TransactionItem.js";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-
 import { useEffect, useState } from "react";
 import { useTheme } from "react-native-paper";
 import { useFocusEffect } from "@react-navigation/native";
@@ -19,9 +18,9 @@ const TransactionList = (props) => {
     const [transactions, setTransactions] = useState([]);
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubCategories] = useState([]);
-    const [range, setRange] = useState({startDate: undefined, endDate: undefined});
+    const [range, setRange] = useState({ startDate: undefined, endDate: undefined });
     const [filteredTransactions, setfilteredTransactions] = useState([])
-    
+
     const [datePickerOpen, setDatePickerOpen] = useState(false)
     const [fetchError, setFetchError] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
@@ -30,6 +29,7 @@ const TransactionList = (props) => {
     const styles = getStyles(theme);
 
 
+    //API calls
     const fetchTransactions = () => {
         fetch(`${apiUrl}/transactions/accounts/${accountId}`)
             .then(res => res.json())
@@ -67,6 +67,7 @@ const TransactionList = (props) => {
             .catch()
     }
 
+    //Refresh page logic
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         setTransactions([]);
@@ -88,21 +89,32 @@ const TransactionList = (props) => {
         }, [])
     );
 
+
+    //getters
+    const getCategory = (categoryId) => {
+        return categories.find(category => category.id === categoryId);
+    }
+
+    const getSubCategory = (subCategoryId) => {
+        return subcategories.find(subcategory => subcategory.id === subCategoryId)
+    }
+
+    //UI logic
     const onDismiss = React.useCallback(() => {
         setDatePickerOpen(false);
-      }, [setDatePickerOpen]);
+    }, [setDatePickerOpen]);
 
-      
-      const onConfirm = React.useCallback(
+
+    const onConfirm = React.useCallback(
         ({ startDate, endDate }) => {
-          setDatePickerOpen(false);
-          setRange({ startDate, endDate });
-          filterTransactions();
+            setDatePickerOpen(false);
+            setRange({ startDate, endDate });
+            filterTransactions();
         },
         [setDatePickerOpen, setRange]
-      );
+    );
 
-      const formatDate = (date) => {
+    const formatDate = (date) => {
         if (!date) return '';
         return new Date(date).toLocaleDateString('en-US', {
             month: 'short',
@@ -113,28 +125,36 @@ const TransactionList = (props) => {
 
     const filterTransactions = () => {
         if (!range.startDate || !range.endDate) {
-            setfilteredTransactions(transactions); 
+            setfilteredTransactions(transactions);
             return;
         }
-    
+
         const startDate = new Date(range.startDate);
         const endDate = new Date(range.endDate);
-    
+
+        if( isDateInFuture(startDate, endDate)){
+            alert("The end date cannot be in the future. It has been reset to toda's date.")
+        }
+
+        if (new Date(startDate) > new Date(endDate)) {
+            alert("Start date cannot be later than the end date. Swapping the dates.");
+            const temp = startDate;
+            startDate = endDate;
+            endDate = temp;
+        }
+
         const filtered = transactions.filter((transaction) => {
             const transactionDate = new Date(transaction.date);
             return transactionDate >= startDate && transactionDate <= endDate;
         });
-    
+
         setfilteredTransactions(filtered);
     };
-    
-    const getCategory = (categoryId) => {
-        return categories.find(category => category.id === categoryId);
-    }
 
-    const getSubCategory = (subCategoryId) => {
-        return subcategories.find(subcategory => subcategory.id === subCategoryId)
-    }
+    const isDateInFuture = (date) => {
+        const currentDate = new Date();
+        return new Date(date) > currentDate;
+    };
 
     const renderItem = ({ item }) => {
         const subCategory = getSubCategory(item.subCategoryId);
@@ -167,48 +187,48 @@ const TransactionList = (props) => {
             <View style={styles.container}>
                 <View style={styles.dateInputContainer}>
 
-                <SafeAreaProvider>
-                    <Button icon="calendar" style={[styles.button,styles.dateButton]}
-    contentStyle={styles.dateButtonContent}
-    labelStyle={styles.dateButtonLabel} onPress={() => setDatePickerOpen(true)} uppercase={false} mode="outlined">
-                    {range.startDate !== undefined && range.endDate !== undefined 
-    ? `${formatDate(range.startDate)} - ${formatDate(range.endDate)}` 
-    : "Pick a date Range"}                 
-  
-
-    </Button>
+                    <SafeAreaProvider>
+                        <Button icon="calendar" style={[styles.button, styles.dateButton]}
+                            contentStyle={styles.dateButtonContent}
+                            labelStyle={styles.dateButtonLabel} onPress={() => setDatePickerOpen(true)} uppercase={false} mode="outlined">
+                            {range.startDate !== undefined && range.endDate !== undefined
+                                ? `${formatDate(range.startDate)} - ${formatDate(range.endDate)}`
+                                : "Pick a date Range"}
 
 
-     {
-        range.startDate !== undefined && range.endDate !== undefined 
-        ?<Button
-        style={[styles.button, styles.clearButton, { backgroundColor: theme.colors.error }]} 
-        labelStyle={{ color: theme.colors.onError }} 
-        onPress={() => {
-            setRange({ startDate: undefined, endDate: undefined });
-            setfilteredTransactions(transactions); 
-        }}
-      >
-        clear filter
-      </Button>
-      : <></>
-     }                   
-     
-   
-                    <DatePickerModal
-                        disableStatusBarPadding
-                        locale="be-en"
-                        mode="range"
-                        visible={datePickerOpen}
-                        onDismiss={onDismiss}
-                        startDate={range.startDate}
-                        endDate={range.endDate}
-                        onConfirm={onConfirm}
-                        startYear={2023}
-                        endYear={2024}
-                        style={styles.datePickerModal}
-                    />
-                </SafeAreaProvider>
+                        </Button>
+
+
+                        {
+                            range.startDate !== undefined && range.endDate !== undefined
+                                ? <Button
+                                    style={[styles.button, styles.clearButton, { backgroundColor: theme.colors.error }]}
+                                    labelStyle={{ color: theme.colors.onError }}
+                                    onPress={() => {
+                                        setRange({ startDate: undefined, endDate: undefined });
+                                        setfilteredTransactions(transactions);
+                                    }}
+                                >
+                                    clear filter
+                                </Button>
+                                : <></>
+                        }
+
+
+                        <DatePickerModal
+                            disableStatusBarPadding
+                            locale="be-en"
+                            mode="range"
+                            visible={datePickerOpen}
+                            onDismiss={onDismiss}
+                            startDate={range.startDate}
+                            endDate={range.endDate}
+                            onConfirm={onConfirm}
+                            startYear={2023}
+                            endYear={2024}
+                            style={styles.datePickerModal}
+                        />
+                    </SafeAreaProvider>
                 </View>
 
                 <FlatList
@@ -243,36 +263,36 @@ const getStyles = (theme) => StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 16,
-margin:18        ,
+        margin: 18,
         width: '100%',
     },
     datePickerModal: {
-        backgroundColor: theme.colors.surface, 
-        borderRadius: 12, 
-         
-        padding: 16, 
+        backgroundColor: theme.colors.surface,
+        borderRadius: 12,
+
+        padding: 16,
         shadowColor: theme.colors.onSurface,
         shadowOpacity: 0.25,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 4,
-        elevation: 5, 
+        elevation: 5,
     },
     button: {
-        marginHorizontal: theme.margins.screenHorizontal, 
-        marginVertical: 8,    
+        marginHorizontal: theme.margins.screenHorizontal,
+        marginVertical: 8,
         borderWidth: 1,
-        borderRadius: 8,      
+        borderRadius: 8,
     },
-    dateButton:{
-        borderColor: theme.colors.primary, 
+    dateButton: {
+        borderColor: theme.colors.primary,
     },
     dateButtonContent: {
-        flexDirection: "row", 
+        flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        paddingVertical: 8,  
+        paddingVertical: 8,
     },
-   
+
 })
 
 
