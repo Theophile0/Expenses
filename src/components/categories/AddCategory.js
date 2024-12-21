@@ -154,9 +154,9 @@ const AddCategory = (props) => {
         style={styles.slider}
             minimumValue={0}
             maximumValue={1}
-            minimumTrackTintColor={theme.colors.primary} // MD3 primary color
-          maximumTrackTintColor={theme.colors.onSurfaceVariant} // MD3 onSurfaceVariant color
-          thumbTintColor={theme.colors.secondary} // MD3 secondary color
+            minimumTrackTintColor={theme.colors.primary} 
+          maximumTrackTintColor={theme.colors.onSurfaceVariant} 
+          thumbTintColor={theme.colors.secondary} 
           onValueChange={handleGreenValueChange}
        
 
@@ -166,8 +166,8 @@ const AddCategory = (props) => {
             minimumValue={0}
             maximumValue={1}
             onValueChange={handleBlueValueChange}
-            minimumTrackTintColor={theme.colors.primary} // MD3 primary color
-            maximumTrackTintColor={theme.colors.onSurfaceVariant} // MD3 onSurfaceVariant color
+            minimumTrackTintColor={theme.colors.primary} 
+            maximumTrackTintColor={theme.colors.onSurfaceVariant} 
         />
 
 <View style={[styles.colorPreview, { backgroundColor: color }]} />
@@ -184,9 +184,8 @@ const AddCategory = (props) => {
 
         {image && (
   <Button
-    style={[styles.button, { backgroundColor: theme.colors.error }]} // Apply error style to the delete button
-    labelStyle={{ color: theme.colors.onError }} // Apply onError color to text
-    mode="contained"
+    style={[styles.button, { backgroundColor: theme.colors.error }]} 
+    labelStyle={{ color: theme.colors.onError }} 
     onPress={handleRemoveImage}
   >
     Delete Image
@@ -200,8 +199,7 @@ const AddCategory = (props) => {
 }
             
 <Button
-  style={styles.button} // Apply regular button style to the Add Category button
-  mode="outlined"
+  style={styles.button} 
   onPress={handleSubmit}
 >
   Add Category

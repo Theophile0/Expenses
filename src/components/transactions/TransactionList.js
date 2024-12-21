@@ -97,6 +97,7 @@ const TransactionList = (props) => {
         ({ startDate, endDate }) => {
           setDatePickerOpen(false);
           setRange({ startDate, endDate });
+          filterTransactions();
         },
         [setDatePickerOpen, setRange]
       );
@@ -108,6 +109,23 @@ const TransactionList = (props) => {
             day: '2-digit',
             year: 'numeric',
         });
+    };
+
+    const filterTransactions = () => {
+        if (!range.startDate || !range.endDate) {
+            setfilteredTransactions(transactions); 
+            return;
+        }
+    
+        const startDate = new Date(range.startDate);
+        const endDate = new Date(range.endDate);
+    
+        const filtered = transactions.filter((transaction) => {
+            const transactionDate = new Date(transaction.date);
+            return transactionDate >= startDate && transactionDate <= endDate;
+        });
+    
+        setfilteredTransactions(filtered);
     };
     
     const getCategory = (categoryId) => {
@@ -150,12 +168,33 @@ const TransactionList = (props) => {
                 <View style={styles.dateInputContainer}>
 
                 <SafeAreaProvider>
-                    <Button icon="calendar" style={styles.dateButton}
+                    <Button icon="calendar" style={[styles.button,styles.dateButton]}
     contentStyle={styles.dateButtonContent}
     labelStyle={styles.dateButtonLabel} onPress={() => setDatePickerOpen(true)} uppercase={false} mode="outlined">
                     {range.startDate !== undefined && range.endDate !== undefined 
     ? `${formatDate(range.startDate)} - ${formatDate(range.endDate)}` 
-    : "Pick a date Range"}                    </Button>
+    : "Pick a date Range"}                 
+  
+
+    </Button>
+
+
+     {
+        range.startDate !== undefined && range.endDate !== undefined 
+        ?<Button
+        style={[styles.button, styles.clearButton, { backgroundColor: theme.colors.error }]} 
+        labelStyle={{ color: theme.colors.onError }} 
+        onPress={() => {
+            setRange({ startDate: undefined, endDate: undefined });
+            setfilteredTransactions(transactions); 
+        }}
+      >
+        clear filter
+      </Button>
+      : <></>
+     }                   
+     
+   
                     <DatePickerModal
                         disableStatusBarPadding
                         locale="be-en"
@@ -210,7 +249,7 @@ margin:18        ,
     datePickerModal: {
         backgroundColor: theme.colors.surface, 
         borderRadius: 12, 
-        margin: 20, 
+         
         padding: 16, 
         shadowColor: theme.colors.onSurface,
         shadowOpacity: 0.25,
@@ -218,12 +257,14 @@ margin:18        ,
         shadowRadius: 4,
         elevation: 5, 
     },
-    dateButton: {
-        marginHorizontal: 16, 
+    button: {
+        marginHorizontal: theme.margins.screenHorizontal, 
         marginVertical: 8,    
-        borderColor: theme.colors.primary, 
         borderWidth: 1,
         borderRadius: 8,      
+    },
+    dateButton:{
+        borderColor: theme.colors.primary, 
     },
     dateButtonContent: {
         flexDirection: "row", 

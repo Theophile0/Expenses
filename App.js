@@ -15,7 +15,7 @@ import {
 
 
 export const PreferencesContext = React.createContext({
-  toggleTheme: () => {},
+  toggleTheme: () => { },
   isThemeDark: false,
 });
 
@@ -54,7 +54,15 @@ const { LightTheme, DarkTheme } = adaptNavigationTheme({
 const CombinedDefaultTheme = {
   ...MD3LightTheme,
   ...LightTheme,
-    // FONTS
+  // FONTS
+
+  margins: {
+    screenTop: 50,
+    screenBottom: 20,
+    screenHorizontal: 80,
+  },
+  fonts: {
+    ...MD3LightTheme.fonts,
     FONT_SIZE_EXTRA_LARGE: 33,
     FONT_SIZE_LARGE: 25,
     FONT_SIZE_MEDIUM: 20,
@@ -63,14 +71,6 @@ const CombinedDefaultTheme = {
     FONT_WEIGHT_LIGHT: 200,
     FONT_WEIGHT_MEDIUM: 600,
     FONT_WEIGHT_HEAVY: 800,
-    
-
-    // MARGINS
-    SCREEN_TOP_MARGIN: 50,
-    SCREEN_BOTTOM_MARGIN: 20,
-    SCREEN_HORIZONTAL_MARGIN: 80,
-  fonts:{
-    ...MD3LightTheme.fonts,
   },
   colors: {
     ...MD3LightTheme.colors,
@@ -88,29 +88,30 @@ const CombinedDefaultTheme = {
 const CombinedDarkTheme = {
   ...MD3DarkTheme,
   ...DarkTheme,
-  // FONTS
-  FONT_SIZE_EXTRA_LARGE: 33,
-  FONT_SIZE_LARGE: 25,
-  FONT_SIZE_MEDIUM: 20,
-  FONT_SIZE_SMALL: 16,
 
-  FONT_WEIGHT_LIGHT: 200,
-  FONT_WEIGHT_MEDIUM: 600,
-  FONT_WEIGHT_HEAVY: 800,
-  
-  fonts:{
-    ...MD3DarkTheme.fonts,
 
+  margins: {
+    screenTop: 50,
+    screenBottom: 20,
+    screenHorizontal: 80,
   },
 
-  // MARGINS
-  SCREEN_TOP_MARGIN: 50,
-  SCREEN_BOTTOM_MARGIN: 20,
-  SCREEN_HORIZONTAL_MARGIN: 80,
+  fonts: {
+    ...MD3DarkTheme.fonts,
+    FONT_SIZE_EXTRA_LARGE: 33,
+    FONT_SIZE_LARGE: 25,
+    FONT_SIZE_MEDIUM: 20,
+    FONT_SIZE_SMALL: 16,
+
+    FONT_WEIGHT_LIGHT: 200,
+    FONT_WEIGHT_MEDIUM: 600,
+    FONT_WEIGHT_HEAVY: 800,
+  },
+
   colors: {
     ...MD3DarkTheme.colors,
     ...DarkTheme.colors,
-    // COLORS
+
     FONT_COLOR_PRIMARY: '#000000',
     FONT_COLOR_SECONDARY: '#ffffff',
     FONT_COLOR_TERTIARY: '#1AF149',

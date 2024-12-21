@@ -60,7 +60,7 @@ const getStyles = (theme) => StyleSheet.create({
         borderRadius: 10,
         padding: 15,
         backgroundColor: theme.colors.primaryContainer,
-        fontSize: theme.FONT_SIZE_LARGE,
+        fontSize: theme.fonts.FONT_SIZE_LARGE,
     },
     imageContainer:{
         flex:0.75
@@ -75,12 +75,12 @@ const getStyles = (theme) => StyleSheet.create({
     },
     smallText:{
         color: theme.colors.onSurface,
-        fontSize: theme.FONT_SIZE_SMALL,
+        fontSize: theme.fonts.FONT_SIZE_SMALL,
         whiteSpace: 'nowrap',
     },
     titleText:{
         color: theme.colors.onSurface,
-        fontSize: theme.FONT_SIZE_MEDIUM,
+        fontSize: theme.fonts.FONT_SIZE_MEDIUM,
         fontWeight: '500'
     },
     balanceContainer:{
@@ -89,7 +89,7 @@ const getStyles = (theme) => StyleSheet.create({
         justifyContent: 'center'
     },
     balance:{
-        fontSize: theme.FONT_SIZE_LARGE,
+        fontSize: theme.fonts.FONT_SIZE_LARGE,
     },
     balancePositive:{
         color: theme.colors.POSITIVE_NUMBER_COLOR,
