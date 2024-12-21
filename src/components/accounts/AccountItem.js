@@ -42,7 +42,6 @@ const getStyles = (theme) => StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
 
-        margin: 10,
         marginTop: 10,
         width: itemWidth -50,
         borderRadius: 10,

@@ -160,6 +160,7 @@ const getStyles = () => StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    margin: Platform.OS === 'web'? 'auto' : 0
   },
   textInput: {
     marginTop: 20
@@ -169,13 +170,14 @@ const getStyles = () => StyleSheet.create({
   },
   imagePreview: {
     alignSelf: 'center',
-    width: itemWidth - 50, // Pas de breedte aan naar wens
-    height: itemWidth, // Pas de hoogte aan naar wens
-    resizeMode: 'contain', // Behoudt de aspect ratio van het beeld
-    borderRadius: 10, // Voegt afgeronde hoeken toe
+    width: itemWidth - 50, 
+    height: itemWidth, 
+    resizeMode: 'contain',
+    borderRadius: 10, 
     borderWidth: 1,
     borderColor: 'gray',
     marginTop: 20,
+    
   },
 });
 
