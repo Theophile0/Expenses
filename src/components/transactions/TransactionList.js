@@ -67,6 +67,23 @@ const TransactionList = (props) => {
             .catch()
     }
 
+    const deleteTransaction = (transactionId) =>{
+        fetch(`${apiUrl}/transacions/${transactionId}`,{
+            method: 'DELETE'
+        })
+        .then(response =>{
+            if(response.ok){
+                setTransactions(oldTransactions => oldTransactions.filter(transaction => transaction.id !== transactionId))
+                setfilteredTransactions(oldFilteredTransactions => oldFilteredTransactions.filter(transaction => transaction.id !== transactionId))
+            } else{
+                alert('Transactions could not be deleted')
+            }
+        })
+        .catch(error =>{
+
+        })
+    }
+
     //Refresh page logic
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
@@ -168,6 +185,8 @@ const TransactionList = (props) => {
                 image={category?.icon ? category.icon : ""}
                 transactionId={item.id}
                 navigation={navigation}
+                onDelete={() => deleteTransaction(item.id)}
+                onEdit={() => navigation.navigate('TransacionEdit', {transaction: item.id})}   
             />
         );
     };

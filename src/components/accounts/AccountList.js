@@ -127,10 +127,6 @@ const AccountList = (props) => {
     />
             </View>
         </View>
-          
-            
-          
-        
         <FlatList
           style={styles.list}
           data={filteredAccounts}
@@ -150,9 +146,7 @@ const getStyles = (theme) => StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
-
-    
+    alignItems: 'center',   
   },
 
   activityIndicator: {

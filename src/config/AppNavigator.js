@@ -5,14 +5,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AccountsScreen from '../screens/AccountsScreen.js';
 import TransactionsScreen from '../screens/TransactionsScreen.js';
 import TransactionDetailScreen from '../screens/TransactionDetailScreen.js';
-import TransactionEditorScreen from '../screens/TransactionEditorScreen.js';
 import SettingsScreen from '../components/settings/SettingsScreen.js';
 import AdddTransactionScreen from '../screens/AddTransactionScreen.js'
 import AddAccountScreen from '../screens/AddAccountScreen.js'
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import AddCategoryScreen from '../screens/AddCategoryScreen.js';
 import AddSubCategoryScreen from '../screens/AddSubCategoryScreen.js';
-import AccountEditScreen from '../screens/EditAccountScreen.js';
+import AccountEditScreen from '../screens/AccountEditScreen.js';
+import TransactionEditScreen from '../screens/TransactionEditScreen.js';
 
 
 const Stack = createNativeStackNavigator();
@@ -54,10 +54,10 @@ const AccountsStackNavigator =()=> {
             <Stack.Screen name="Transactions" component={TransactionsScreen} />
             <Stack.Screen name="TransactionDetails" component={TransactionDetailScreen} options={{title: 'Details'}} />
             <Stack.Screen name="AddTransaction" component={AdddTransactionScreen} options={{title: 'New Transaction'}}/>
-            <Stack.Screen name="TransactionEditor" component={TransactionEditorScreen} options={{title: 'Editor'}}/>
             <Stack.Screen name="AddCategory" component={AddCategoryScreen} options={{title: 'New Category'}}/>
             <Stack.Screen name="AddSubCategory" component={AddSubCategoryScreen} options={{title: 'New Subcategory'}}/>
             <Stack.Screen name="AccountEdit" component={AccountEditScreen} options={{title: 'Edit account'}}/>
+            <Stack.Screen name="TransactionEdit" component={TransactionEditScreen} options={{title: 'Edit transaction'}}/>
         </Stack.Navigator>
     );
 }

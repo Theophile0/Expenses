@@ -1,99 +1,109 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
-import { List, Card, Divider, useTheme } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native';
+import { Card, List, Divider, Text, ActivityIndicator, useTheme } from 'react-native-paper';
 
 const TransactionDetail = (props) => {
-  const { navigation, route } = props;
+    const {route, transaction, category, subCategory, accountId} = props;
   const { transactionId } = route.params;
-  const theme = useTheme();
   const apiUrl = process.env.EXPO_API_URL;
-  const [transaction, setTransaction] = useState(null);
-  const [category, setCategory] = useState(null);
-  const [subCategory, setSubCategory] = useState(null);
+  const theme = useTheme();
+  const [account, setAccount] = useState(null)
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/transactions/${transactionId}`);
-        const data = await response.json();
-        setTransaction(data);
+  useEffect(()=>{
+        fetch(`${apiUrl}/accounts/${accountId}`)
+        .then(res => res.json())
+        .then(data => {
+            setAccount(data)
+        })
+        .catch
+    })
+  
+  const formatDate = (date) =>{
+    const formattedDate = new Date(date); 
+    const day = String(formattedDate.getDate()).padStart(2, '0'); 
+    const month = String(formattedDate.getMonth() + 1).padStart(2, '0'); 
+    const year = formattedDate.getFullYear(); 
+    return `${day}-${month}-${year}`; }
 
-        if (data.subcategoryId) { 
-          fetchSubCategory(data.subcategoryId);
-        }
-      } catch (error) {
-        console.error('Error fetching transaction:', error);
-      }
-    };
-
-    fetchData();
-  }, [transactionId, apiUrl]);
-
-  useEffect(() => {
-    if (transaction && transaction.subcategoryId) {
-      fetchSubCategory(transaction.subcategoryId);
-    }
-  }, [transaction]);
-
-  const fetchSubCategory = async (subcategoryId) => {
-    try {
-      const response = await fetch(`${apiUrl}/subcategories/${subcategoryId}`);
-      const data = await response.json();
-      setSubCategory(data);
-    } catch (error) {
-      console.error('Error fetching subcategory:', error);
-    }
-  };
+  if (loading) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </View>
+    );
+  }
 
   return (
-    <View style={{ padding: 16 }}>
+    <View style={styles.container}>
       {transaction ? (
-        <Card>
-          <Card.Title title="Transaction Details" />
+        <Card style={styles.card}>
+          <Card.Title title="Transaction Details" titleStyle={styles.cardTitle} />
           <Card.Content>
             <List.Section>
-              <List.Item 
-                title="Amount" 
-                right={() => (
-                  <Text 
-                    style={{ 
-                      color: transaction.amount >= 0 ? 'green' : 'red' 
-                    }}
-                  >
-                    € {transaction.amount.toFixed(2)}
-                  </Text>
-                )} 
+              <List.Item
+                title="Amount"
+                description={`€ ${transaction.amount.toFixed(2)}`}
+                descriptionStyle={{
+                  color: transaction.amount >= 0 ? theme.colors.success : theme.colors.error,
+                }}
               />
               <Divider />
-              <List.Item title="Date" right={() => <Text>{transaction.date}</Text>} />
+              <List.Item title="Date" description={formatDate(transaction.date)} />
               <Divider />
-              <List.Item title="Description" right={() => <Text>{transaction.description}</Text>} />
+              <List.Item title="Description" description={transaction.description || 'N/A'} />
               <Divider />
-              <List.Item title="Account ID" right={() => <Text>{transaction.accountId}</Text>} />
+              <List.Item title="Account ID" description={transaction.accountId || 'N/A'} />
               <Divider />
-              <List.Item 
-                title="Category" 
-                right={() => 
-                  category ? <Text>{category.name}</Text> : <Text>N/A</Text> 
-                } 
+              <List.Item
+                title="Category"
+                description={category ? category.name : 'N/A'}
               />
               <Divider />
-              <List.Item 
-                title="Subcategory" 
-                right={() => 
-                  subCategory ? <Text>{subCategory.name}</Text> : <Text>N/A</Text> 
-                } 
+              <List.Item
+                title="Subcategory"
+                description={subCategory ? subCategory.name : 'N/A'}
               />
             </List.Section>
           </Card.Content>
         </Card>
       ) : (
-        <View>
-          <Text>Error loading transaction</Text>
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>Error loading transaction</Text>
         </View>
       )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#f9f9f9',
+  },
+  card: {
+    borderRadius: 8,
+    elevation: 3,
+  },
+  cardTitle: {
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 16,
+  },
+});
 
 export default TransactionDetail;

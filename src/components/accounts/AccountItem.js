@@ -28,7 +28,7 @@ const AccountItem = (props) => {
     const handleDelete = () => {
         Alert.alert(
             "Delete Account",
-            "Are you sure you want to delete this account? All the transactions will be deleted.",
+            "Are you sure you want to delete this account? All the transactions of this account will be deleted.",
             [
                 {
                     text: "Cancel",
@@ -46,7 +46,7 @@ const AccountItem = (props) => {
         <TouchableOpacity 
             style={[styles.container, isLongPressed && styles.longPressed]} 
             onPress={isLongPressed ? handleShortPress :() => navigation.navigate('Transactions', { accountId: accountId })}
-            onLongPress={handleLongPress} // Detect long press
+            onLongPress={handleLongPress} 
         >
             <View style={styles.imageContainer}>
                 {image !== "" ? 

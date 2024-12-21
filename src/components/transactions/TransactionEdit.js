@@ -8,7 +8,7 @@ import { useTheme } from "react-native-paper";
 
 
 
-const TransactionEditor = (props) => {
+const TransactionEdit = (props) => {
     const theme = useTheme();
   const styles = getStyles(theme);
     const {navigation, route} = props;
@@ -82,4 +82,4 @@ const getStyles =(theme) => StyleSheet.create({
     }
 })
 
-export default TransactionEditor;
+export default TransactionEdit;
