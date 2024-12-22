@@ -207,15 +207,21 @@ const TransactionList = (props) => {
                 <View style={styles.dateInputContainer}>
 
                     <SafeAreaProvider>
-                        <Button icon="calendar" style={[styles.button, styles.dateButton]}
-                            contentStyle={styles.dateButtonContent}
-                            labelStyle={styles.dateButtonLabel} onPress={() => setDatePickerOpen(true)} uppercase={false} mode="outlined">
-                            {range.startDate !== undefined && range.endDate !== undefined
-                                ? `${formatDate(range.startDate)} - ${formatDate(range.endDate)}`
-                                : "Pick a date Range"}
-
-
-                        </Button>
+                    <Button
+  icon="calendar"
+  style={[styles.button, styles.dateButton]}
+  contentStyle={styles.dateButtonContent}
+  labelStyle={styles.dateButtonLabel}
+  onPress={() => setDatePickerOpen(true)}
+  uppercase={false}
+  mode="outlined"
+>
+  <Text>
+    {range.startDate !== undefined && range.endDate !== undefined
+        ? `${formatDate(range.startDate)} - ${formatDate(range.endDate)}`
+        : "Pick a date Range"}
+  </Text>
+</Button>
 
 
                         {
@@ -228,7 +234,7 @@ const TransactionList = (props) => {
                                         setfilteredTransactions(transactions);
                                     }}
                                 >
-                                    clear filter
+                                    <Text>Clear filter</Text>
                                 </Button>
                                 : <></>
                         }

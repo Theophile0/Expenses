@@ -71,7 +71,7 @@ onLongPress={handleLongPress}
         </View>
         <View style={styles.balanceContainer}>
             <Text style={[PositiveAmount(amount)? styles.balancePositive: styles.balanceNegative, styles.balance]}>
-                € {PositiveAmount(amount)? amount:  amount}
+                <Text>€ </Text>{PositiveAmount(amount)? amount:  amount}
             </Text>
         </View>
         {isLongPressed && (

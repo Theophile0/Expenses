@@ -16,7 +16,7 @@ const AddSubcategory = ({ categoryId, closeModal }) => {
       const response = await fetch(`${apiUrl}/subcategories`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json', 
         },
         body: JSON.stringify({
           name: name,
@@ -26,12 +26,12 @@ const AddSubcategory = ({ categoryId, closeModal }) => {
       });
 
       if (response.ok) {
-        closeModal(); // Close the modal after successful submission
+        closeModal(); 
       } else {
-        console.error('Error creating subcategory:', response.status);
+        console.log(response)
       }
     } catch (error) {
-      console.error('Error creating subcategory:', error);
+      
     }
   };
 

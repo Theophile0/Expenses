@@ -81,7 +81,12 @@ const AddAccount = (props) => {
         .then(response => {
           if(!response.ok){
             setFetchError(true)
+            console.log("ok")
+            console.log(response)
+
             return
+          }else{
+            console.log(response)
           }
         })
           .then(data => {
@@ -135,7 +140,7 @@ const AddAccount = (props) => {
         >
           {image ? "Delete Image" : "Choose Image"}
         </Button>
-        {image ? <Image source={{ uri: image }} style={styles.imagePreview} /> : <Text>Select an image</Text>}
+        {image ? <Image source={{ uri: image }} style={styles.imagePreview} /> : <></>}
 
 
 
