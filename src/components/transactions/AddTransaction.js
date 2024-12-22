@@ -60,6 +60,18 @@ const AddTransaction = (props) => {
     }
   };
 
+  const parseToDouble = (input, isNegative) => {
+    const sanitizedInput = input.replace(/\s/g, "");
+    const parsedValue = parseFloat(sanitizedInput);
+  
+    if (isNaN(parsedValue)) {
+      throw new Error(`Invalid input: "${input}" is not a valid number.`);
+    }
+  
+    return isNegative ? -Math.abs(parsedValue) : Math.abs(parsedValue);
+  };
+  
+
   const handleSubmit = () => {
     try {
       
@@ -75,8 +87,12 @@ const AddTransaction = (props) => {
       if (amount === ''| amount=== '- ' || amount === '-') {
         amount = 0.0;
       }
+      const isNegative = false;
+      if(posinegative === "negative"){
+        isNegative = true;
+      }
+      const changedAmount = parseToDouble(amount, isNegative)
       
-      const adjustedAmount = posinegative === 'negative' ? -parseFloat(amount) : parseFloat(amount);
 
       fetch(`${apiUrl}/transactions`, {
         method: 'POST',
@@ -85,7 +101,7 @@ const AddTransaction = (props) => {
         },
         body: JSON.stringify({
           date: date,
-          amount: amount,
+          amount: changedAmount,
           accountId: accountId,
           subCategoryId: subCategory,
         }),

@@ -67,22 +67,22 @@ const TransactionList = (props) => {
             .catch()
     }
 
-    const deleteTransaction = (transactionId) =>{
+    const deleteTransaction = (transactionId) => {
         console.log("got here")
-        fetch(`${apiUrl}/transacions/${transactionId}`,{
+        fetch(`${apiUrl}/transacions/${transactionId}`, {
             method: 'DELETE'
         })
-        .then(response =>{
-            if(response.ok){
-                setTransactions(oldTransactions => oldTransactions.filter(transaction => transaction.id !== transactionId))
-                setfilteredTransactions(oldFilteredTransactions => oldFilteredTransactions.filter(transaction => transaction.id !== transactionId))
-            } else{
-                alert('Transactions could not be deleted')
-            }
-        })
-        .catch(error =>{
+            .then(response => {
+                if (response.ok) {
+                    setTransactions(oldTransactions => oldTransactions.filter(transaction => transaction.id !== transactionId))
+                    setfilteredTransactions(oldFilteredTransactions => oldFilteredTransactions.filter(transaction => transaction.id !== transactionId))
+                } else {
+                    alert('Transactions could not be deleted')
+                }
+            })
+            .catch(error => {
 
-        })
+            })
     }
 
     //Refresh page logic
@@ -150,7 +150,7 @@ const TransactionList = (props) => {
         const startDate = new Date(range.startDate);
         const endDate = new Date(range.endDate);
 
-        if( isDateInFuture(startDate, endDate)){
+        if (isDateInFuture(startDate, endDate)) {
             alert("The end date cannot be in the future. It has been reset to toda's date.")
         }
 
@@ -187,7 +187,7 @@ const TransactionList = (props) => {
                 transactionId={item.id}
                 navigation={navigation}
                 onDelete={() => deleteTransaction(item.id)}
-                onEdit={() => navigation.navigate('TransactionEdit', {transaction: item.id})}   
+                onEdit={() => navigation.navigate('TransactionEdit', { transaction: item.id })}
             />
         );
     };
@@ -208,21 +208,21 @@ const TransactionList = (props) => {
                 <View style={styles.dateInputContainer}>
 
                     <SafeAreaProvider>
-                    <Button
-  icon="calendar"
-  style={[styles.button, styles.dateButton]}
-  contentStyle={styles.dateButtonContent}
-  labelStyle={styles.dateButtonLabel}
-  onPress={() => setDatePickerOpen(true)}
-  uppercase={false}
-  mode="outlined"
->
-  <Text>
-    {range.startDate !== undefined && range.endDate !== undefined
-        ? `${formatDate(range.startDate)} - ${formatDate(range.endDate)}`
-        : "Pick a date Range"}
-  </Text>
-</Button>
+                        <Button
+                            icon="calendar"
+                            style={[styles.button, styles.dateButton]}
+                            contentStyle={styles.dateButtonContent}
+                            labelStyle={styles.dateButtonLabel}
+                            onPress={() => setDatePickerOpen(true)}
+                            uppercase={false}
+                            mode="outlined"
+                        >
+                            <Text>
+                                {range.startDate !== undefined && range.endDate !== undefined
+                                    ? `${formatDate(range.startDate)} - ${formatDate(range.endDate)}`
+                                    : "Pick a date Range"}
+                            </Text>
+                        </Button>
 
 
                         {
@@ -265,7 +265,7 @@ const TransactionList = (props) => {
                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
 
                 />
-                <AddEntityButton disabled={disabled} action={() => navigation.navigate('AddTransaction', {accountId: accountId})} />
+                <AddEntityButton disabled={disabled} action={() => navigation.navigate('AddTransaction', { accountId: accountId })} />
             </View>
 
         )
