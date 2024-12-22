@@ -2,7 +2,7 @@ import React from 'react'
 import { View, StyleSheet, FlatList, Dimensions, RefreshControl, Platform } from "react-native";
 import AccountItem from "./AccountItem.js";
 import { useEffect, useState } from "react";
-import { useTheme, ActivityIndicator, Searchbar } from "react-native-paper";
+import { useTheme, ActivityIndicator, Searchbar, Button } from "react-native-paper";
 import { useFocusEffect } from '@react-navigation/native';
 import AddEntityButton from '../shared/AddEntityButton.js';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -53,6 +53,11 @@ const AccountList = (props) => {
     fetch(`${apiUrl}/accounts`)
       .then(response => response.json())
       .then(data => {
+        if(data == null){
+          setAnimating(false)
+          setFetchError(true)
+          setRefreshing(false)
+        }
         setAccounts(data);
         setFilteredAccounts(data)
         setAnimating(false);
@@ -60,8 +65,7 @@ const AccountList = (props) => {
         setFabDisabled(false)
       })
       .catch(error => {
-        setFetchError(true)
-        setRefreshing(false)
+        
       });
   }
 
@@ -112,6 +116,13 @@ const AccountList = (props) => {
         <ActivityIndicator size={'large'} animating={animating} color={theme.colors.onBackground} />
         <AddEntityButton disabled={fabDisabled} action={() => navigation.navigate('AddAccount')} />
 
+      </View>
+    )
+  } else if(fetchError){
+    return(
+      <View>
+        <Text>Error loading accounts. Check your internetconnection</Text>
+        <Button style={styles.button} onPress={onRefresh} mode='contained'>Refresh</Button>
       </View>
     )
   }

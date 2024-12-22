@@ -23,7 +23,7 @@ const AddTransaction = (props) => {
   const [subCategory, setSubcategory] = useState('');
   const [fetchError, setFetchError] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [posinegative, setPosinegative] = useState('positive')
+  const [posinegative, setPosinegative] = useState('positive');
 
   useEffect(() => {
     fetch(`${apiUrl}/categories`)
@@ -36,12 +36,11 @@ const AddTransaction = (props) => {
 
   const refreshSubcategories = () => {
     if (category) {
-      fetch(`${apiUrl}/subcategories?categoryId=${category}`)
+      fetch(`${apiUrl}/subcategories/category/${category}`)
         .then(res => res.json())
         .then(data => {
           setSubcategories(data);
-          console.log(subcategories)
-          setSubcategory('');  
+          setSubcategory('');
         })
         .catch(error => console.error('Error fetching subcategories:', error));
     }
@@ -51,16 +50,17 @@ const AddTransaction = (props) => {
     try {
       if (category === '') {
         setCategoryError(true);
-        return
+        return;
       }
       if (subCategory === '') {
         setSubCategoryError(true);
-        return
+        return;
       }
-      if (amount === '') {
-        amount = 0.0
+      if (amount === ''| amount=== '- ' || amount === '-') {
+        amount = 0.0;
       }
-
+      const adjustedAmount = posinegative === 'negative' ? -parseFloat(amount) : parseFloat(amount);
+      
       fetch(`${apiUrl}/transactions`, {
         method: 'POST',
         headers: {
@@ -70,10 +70,15 @@ const AddTransaction = (props) => {
           date: date,
           amount: amount,
           accountId: accountId,
-          subCategoryId: subCategory.id
-        })
+          subCategoryId: subCategory.id,
+        }),
       })
-        .then(response => { if (response.ok) { navigation.goBack(); } })
+        .then(response => {
+          if (response.ok) {
+            navigation.goBack();
+          }
+          console.log(response)
+        })
         .catch(error => {
           setFetchError(true);
         });
@@ -83,34 +88,44 @@ const AddTransaction = (props) => {
   };
 
   const handleCategoryChange = (selectedCategoryValue) => {
+    setSubcategories([])
     if (selectedCategoryValue === "AddCategory") {
       navigation.navigate('AddCategory');
     } else {
       setCategory(selectedCategoryValue);
-      refreshSubcategories()
+      
+      refreshSubcategories();
     }
   };
 
   const handleSubCategoryChange = (selectedSubCategoryValue) => {
     if (selectedSubCategoryValue === "AddSubCategory") {
-      setModalVisible(true); 
+      setModalVisible(true);
     } else {
       setSubcategory(selectedSubCategoryValue);
     }
   };
 
   const handleAmountChange = (text) => {
-    const isNumeric = /^-?\d+(\.\d{0,2})?$/.test(text); //e.g. 400.20 or 200
-    console.log(isNumeric)
-    if (isNumeric || text === '') { 
+    const isNumeric = /^-?\s?\d*\.?\d{0,2}$/.test(text);
+  
+    if (text === '' || isNumeric) {
       setAmount(text);
-      setAmountError(false); 
+      setAmountError(false);
     } else {
-      setAmountError(true); 
+      setAmountError(true);
     }
   };
+  
 
-
+  const handleRadioChange = (value) => {
+    setPosinegative(value);
+    if (value === "negative" && !amount.startsWith("- ")) {
+      setAmount((prev) => (prev ? `- ${prev}` : "- "));
+    } else if (value === "positive" && amount.startsWith("- ")) {
+      setAmount((prev) => prev.substring(2));
+    }
+  };
 
   return (
     <ScrollView>
@@ -121,23 +136,28 @@ const AddTransaction = (props) => {
           keyboardType="numeric"
           value={amount.toString()}
           error={amountError}
-          onChangeText={
-            text => {
-              handleAmountChange(text)   
-            }
-          }
-          right={<TextInput.Affix text="€" />}
+          onChangeText={text => {
+            handleAmountChange(text);
+          }}
+          left={<TextInput.Affix text="€" />}
+          style={styles.input}
         />
-        <RadioButton
-        value="positive"
-        status={ posinegative === 'positive' ? 'checked' : 'unchecked' }
-        onPress={() => setPosinegative('positive')}
-      />
-      <RadioButton
-        value="negative"
-        status={ posinegative === 'negative' ? 'checked' : 'unchecked' }
-        onPress={() => setPosinegative('negative')}
-      />
+        <View style={styles.radioGroup}>
+          <RadioButton
+            value="positive"
+            status={posinegative === 'positive' ? 'checked' : 'unchecked'}
+            onPress={() => handleRadioChange('positive')}
+            color={theme.colors.primary}
+          />
+          <Text style={styles.radioText}>Positive</Text>
+          <RadioButton
+            value="negative"
+            status={posinegative === 'negative' ? 'checked' : 'unchecked'}
+            onPress={() => handleRadioChange('negative')}
+            color={theme.colors.primary}
+          />
+          <Text style={styles.radioText}>Negative</Text>
+        </View>
         <TextInput
           style={styles.textInput}
           mode="outlined"
@@ -145,47 +165,46 @@ const AddTransaction = (props) => {
           value={description}
           onChangeText={text => {
             setDescription(text);
-          }} 
-          
-          />
-
-        <Picker
-          selectedValue={category}
-          onValueChange={handleCategoryChange}
-        >
-          <Picker.Item label="Select a Category" value="" />
-          {categories.map(cat => (
-            <Picker.Item key={cat.id} label={cat.name} value={cat.id} />
-          ))}
-          <Picker.Item label={"+ New category"} value={"AddCategory"} />
-        </Picker>
-
-        {/* Subcategory Picker (Visible only after selecting a category) */}
+          }}
+          theme={{ colors: { primary: theme.colors.text, background: theme.colors.surface } }}
+        />
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={category}
+            onValueChange={handleCategoryChange}
+            style={styles.picker}
+          >
+            <Picker.Item label="Select a Category" value="" />
+            {categories.map(cat => (
+              <Picker.Item key={cat.id} label={cat.name} value={cat.id} />
+            ))}
+            <Picker.Item label={"+ New category"} value={"AddCategory"} />
+          </Picker>
+        </View>
         {category && (
-          <>
+          <View style={styles.pickerContainer}>
             <Picker
               selectedValue={subCategory}
               onValueChange={handleSubCategoryChange}
+              style={styles.picker}
             >
               <Picker.Item label="Select a Subcategory" value="" />
               {subcategories?.map(sub => (
                 <Picker.Item key={sub.id} label={sub.name} value={sub.id} />
               ))}
-              <Picker.Item label={"New subcategory"} value={"AddSubCategory"} />
+              <Picker.Item style={styles.pickerItem} label={"New subcategory"} value={"AddSubCategory"} />
             </Picker>
-          </>
+          </View>
         )}
 
-        { categoryError ? <Text style={styles.errormessage}>Select a category</Text> : <></>}
-        { subCategoryError ? <Text style={styles.errormessage}>Select a subcategory</Text> : <></>}
-        { amountError ? <Text style={styles.errormessage}>Amount must be a number</Text>:<></>}
+        {categoryError && <Text style={styles.errorMessage}>Select a category</Text>}
+        {subCategoryError && <Text style={styles.errorMessage}>Select a subcategory</Text>}
+        {amountError && <Text style={styles.errorMessage}>Amount must be a number</Text>}
 
-
-        <Button style={styles.button} mode='contained' onPress={handleSubmit}>
+        <Button style={styles.button} mode="contained" onPress={handleSubmit}>
           Add Transaction
         </Button>
 
-       
         <Modal
           animationType="slide"
           transparent={true}
@@ -197,17 +216,15 @@ const AddTransaction = (props) => {
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
               <AddSubcategory
-                categoryId={category} 
-                closeModal={() =>{
-                  setModalVisible(false)
-                  refreshSubcategories()
-                } } 
-                
+                categoryId={category}
+                closeModal={() => {
+                  setModalVisible(false);
+                  refreshSubcategories();
+                }}
               />
             </View>
           </View>
         </Modal>
-
       </View>
     </ScrollView>
   );
@@ -216,23 +233,59 @@ const AddTransaction = (props) => {
 const getStyles = (theme) => StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20
+    padding: 20,
+    backgroundColor: theme.colors.background,
+  },
+  radioGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  radioText: {
+    color: theme.colors.text,
+    marginRight: 10,
+  },
+  input: {
+    backgroundColor: theme.colors.surface,
+    marginBottom: 15,
+  },
+  textInput: {
+    backgroundColor: theme.colors.surface,
+    marginBottom: 15,
+  },
+  button: {
+    marginTop: 20,
+    backgroundColor: theme.colors.primary,
+  },
+  pickerContainer: {
+    marginTop: 20,
+    borderRadius: 8,
+    backgroundColor: theme.colors.surface,
+    borderWidth: 1,
+    borderColor: theme.colors.primary,
+  },
+  picker: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    color: theme.colors.text,
+  },
+  errorMessage: {
+    color: theme.colors.error,
+    marginBottom: 10,
   },
   modalContainer: {
     flex: 1,
+    
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: theme.colors.surface,
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.surface,
     width: '80%',
     padding: 20,
     borderRadius: 10,
   },
-  errormessage:{
-    color: theme.colors.error
-  }
 });
 
 export default AddTransaction;
