@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@everapi/freecurrencyapi-js": "^1.0.1",
     "@expo/metro-runtime": "~4.0.0",
     "@react-native-community/slider": "^4.5.5",
     "@react-native-picker/picker": "^2.10.2",

@@ -5,12 +5,20 @@ import {useContext} from 'react'
 import { Switch } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import Freecurrencyapi from '@everapi/freecurrencyapi-js';
 
 const SettingsScreen = (props) =>{
     const {toggleTheme, isThemeDark} = useContext(PreferencesContext)
     const theme = useTheme()
     const styles = getStyles(theme)
+    const freecurrencyapi = new Freecurrencyapi('YOUR-API-KEY');
+
+
+
+
+
+
+
     return(
         
             <View style={[styles.container]}>

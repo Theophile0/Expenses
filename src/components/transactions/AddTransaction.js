@@ -48,6 +48,7 @@ const AddTransaction = (props) => {
 
   const handleSubmit = () => {
     try {
+      
       if (category === '') {
         setCategoryError(true);
         return;
@@ -56,11 +57,15 @@ const AddTransaction = (props) => {
         setSubCategoryError(true);
         return;
       }
+      
       if (amount === ''| amount=== '- ' || amount === '-') {
         amount = 0.0;
       }
-      const adjustedAmount = posinegative === 'negative' ? -parseFloat(amount) : parseFloat(amount);
       
+      console.log(amount)
+      const adjustedAmount = posinegative === 'negative' ? -parseFloat(amount) : parseFloat(amount);
+      console.log(adjustedAmount)
+
       fetch(`${apiUrl}/transactions`, {
         method: 'POST',
         headers: {
@@ -70,7 +75,7 @@ const AddTransaction = (props) => {
           date: date,
           amount: amount,
           accountId: accountId,
-          subCategoryId: subCategory.id,
+          subCategoryId: subCategory,
         }),
       })
         .then(response => {

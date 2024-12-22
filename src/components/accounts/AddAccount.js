@@ -66,7 +66,7 @@ const AddAccount = (props) => {
         const uri = image;
         const fileType = uri.split('.').pop();
         const imageName = `title_${Date.now()}.${fileType}`
-
+        console.log(image)
         formData.append('imageName', imageName)
         formData.append('image', {
           uri: uri,
