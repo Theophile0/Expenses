@@ -3,6 +3,8 @@ Deze app helpt je je financiën beter te beheren door inkomsten en uitgaven eenv
 Je kunt uitgaven organiseren in verschillende categorieën en subcategoriën zoals: voeding, huur, vervoer. Je kan deze natuurlijk zelf ook aanmaken. Zo krijg je een goed overzicht van je bestedingspatroon
 Met de app kan je nieuwe transacties toevoegen of transacties verwijderen. Deze transacties kan je filteren op datum.
 
+## [Github project](https://github.com/Theophile0/Expenses)
+
 ## Functionaliteiten
 - Zoekfunctie bij account
 - Toevoegen van images als cover bij addAccount en addCategory
@@ -32,6 +34,9 @@ De onderstaande AI-Tools zijn beiden gebruikt bij het debuggen van problemen en 
 ## Afbeeldingen
 - [Splash screen](https://www.iconfinder.com/icons/897227/money_piggy_save_money_savings_icon)
 - [broken image](https://thenounproject.com/browse/icons/term/broken-image/)
+
+## Cursus 
+- Debaere, P. (2024). Cross-platform Development: React Native [Cursus]. Vives.
 
 ### **React Native Paper**
 1. [React Native Paper Button Theme Colors](https://callstack.github.io/react-native-paper/docs/components/Button/#theme-colors)  
