@@ -10,20 +10,20 @@ const AddAccount = (props) => {
   const { navigation } = props;
   const [title, setTitle] = useState('');
   const [type, setType] = useState('');
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState('');
   const theme = useTheme();
   const styles = getStyles(theme);
   const apiUrl = process.env.EXPO_API_URL;
   const [titleError, setTitleEror] = useState(false);
   const [typeError, setTypeError] = useState(false);
   const [fetchError, setFetchError] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
 
   const handleImagePicker = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       quality: 1,
     });
-    console.log(result.assets[0].uri)
     if (!result.canceled && result.assets.length > 0) {
       setImage(result.assets[0].uri);
     }
@@ -50,6 +50,11 @@ const AddAccount = (props) => {
         setTypeError(true)
         return;
       }
+      if(image === null){
+        setImageError(true)
+        return;
+      }
+     
       const formData = new FormData();
       const json = JSON.stringify({
         type: type, 
@@ -57,9 +62,6 @@ const AddAccount = (props) => {
       })
       formData.append('json', json);
 
-      if(image === null){
-        setImage( require('../../assets/broken-image.png'))
-      }
      
 
       if (image) {
@@ -137,11 +139,14 @@ const AddAccount = (props) => {
           style={styles.button}
           mode="outlined"
           onPress={image ? handleRemoveImage : handleImagePicker}
+          error={imageError}
         >
           {image ? "Delete Image" : "Choose Image"}
         </Button>
         {image ? <Image source={{ uri: image }} style={styles.imagePreview} /> : <></>}
 
+
+        {imageError ? <Text>Choose an image</Text>: <></>}
 
 
         <Button style={styles.button} mode='contained' onPress={handleSubmit}>
