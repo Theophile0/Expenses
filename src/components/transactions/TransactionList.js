@@ -68,6 +68,7 @@ const TransactionList = (props) => {
     }
 
     const deleteTransaction = (transactionId) =>{
+        console.log("got here")
         fetch(`${apiUrl}/transacions/${transactionId}`,{
             method: 'DELETE'
         })

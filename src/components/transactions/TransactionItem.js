@@ -55,7 +55,7 @@ const formatDate = (date) =>{
         
           
 <TouchableOpacity 
-style={[styles.container, isLongPressed && styles.longPressed]} 
+style={[styles.container, {backgroundColor: category.color ? category.color: theme.colors.primaryContainer}  ,isLongPressed && styles.longPressed]} 
 onPress={isLongPressed ? handleShortPress :() => navigation.navigate('TransactionDetails', {transactionId: transactionId, subCategory: subcategory, category: category})}
 onLongPress={handleLongPress}
 >
@@ -101,7 +101,6 @@ const getStyles = (theme) => StyleSheet.create({
         width: itemWidth - 50,
         borderRadius: 10,
         padding: 15,
-        backgroundColor: theme.colors.primaryContainer,
     },
     longPressed: {
         opacity: 0.5,  // This opacity applies to the container only

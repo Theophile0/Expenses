@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, ScrollView, Modal } from 'react-native';
 import { TextInput, Button, useTheme, RadioButton } from 'react-native-paper';
 import { Picker } from "@react-native-picker/picker";
 import AddSubcategory from "../subcategories/AddSubcategory";
+import { useFocusEffect } from "@react-navigation/native";
 
 const AddTransaction = (props) => {
   const { navigation, route } = props;
@@ -13,7 +14,7 @@ const AddTransaction = (props) => {
 
   const [amount, setAmount] = useState('');
   const [date, setDate] = useState(Date.now);
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState(0);
   const [description, setDescription] = useState('');
   const [amountError, setAmountError] = useState(false);
   const [subCategoryError, setSubCategoryError] = useState(false);
@@ -25,22 +26,35 @@ const AddTransaction = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [posinegative, setPosinegative] = useState('positive');
 
-  useEffect(() => {
-    fetch(`${apiUrl}/categories`)
-      .then(res => res.json())
-      .then(data => {
-        setCategories(data);
-      })
-      .catch();
-  }, []);
+ const fetchCategories = () => {
+  fetch(`${apiUrl}/categories`)
+  .then(res => res.json())
+  .then(data => {
+    setCategories(data);
+    refreshSubcategories()
+  })
+  .catch();
+ }
+   
+  useFocusEffect(
+    React.useCallback(()=>{
+      setFetchError(false)
+      fetchCategories();
+    }, [])
+  )
 
   const refreshSubcategories = () => {
     if (category) {
       fetch(`${apiUrl}/subcategories/category/${category}`)
         .then(res => res.json())
         .then(data => {
-          setSubcategories(data);
-          setSubcategory('');
+          if(data != null){
+            setSubcategories(data);
+            setSubcategory('');
+          } else{
+            setSubcategories([])
+          }
+         
         })
         .catch(error => console.error('Error fetching subcategories:', error));
     }
@@ -62,9 +76,7 @@ const AddTransaction = (props) => {
         amount = 0.0;
       }
       
-      console.log(amount)
       const adjustedAmount = posinegative === 'negative' ? -parseFloat(amount) : parseFloat(amount);
-      console.log(adjustedAmount)
 
       fetch(`${apiUrl}/transactions`, {
         method: 'POST',
@@ -82,7 +94,6 @@ const AddTransaction = (props) => {
           if (response.ok) {
             navigation.goBack();
           }
-          console.log(response)
         })
         .catch(error => {
           setFetchError(true);
@@ -93,13 +104,14 @@ const AddTransaction = (props) => {
   };
 
   const handleCategoryChange = (selectedCategoryValue) => {
-    setSubcategories([])
     if (selectedCategoryValue === "AddCategory") {
       navigation.navigate('AddCategory');
     } else {
-      setCategory(selectedCategoryValue);
-      
+      console.log(selectedCategoryValue)
+      setCategory(parseInt(selectedCategoryValue));
+      setSubcategories([]);
       refreshSubcategories();
+      console.log(subcategories)
     }
   };
 
@@ -194,11 +206,16 @@ const AddTransaction = (props) => {
               style={styles.picker}
             >
               <Picker.Item label="Select a Subcategory" value="" />
-              {subcategories?.map(sub => (
-                <Picker.Item key={sub.id} label={sub.name} value={sub.id} />
-              ))}
-              <Picker.Item style={styles.pickerItem} label={"New subcategory"} value={"AddSubCategory"} />
-            </Picker>
+      {(Array.isArray(subcategories) && subcategories.length > 0) ? (
+        subcategories.map(sub => (
+          <Picker.Item key={sub.id} label={sub.name} value={sub.id} />
+        ))
+      ) : (<>
+            
+        </>
+      )}
+      <Picker.Item style={styles.pickerItem} label={"New subcategory"} value={"AddSubCategory"} />
+    </Picker>
           </View>
         )}
 
@@ -216,6 +233,7 @@ const AddTransaction = (props) => {
           visible={modalVisible}
           onRequestClose={() => {
             setModalVisible(false);
+            refreshSubcategories();
           }}
         >
           <View style={styles.modalContainer}>
